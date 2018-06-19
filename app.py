@@ -7,6 +7,10 @@ from config import ProductConfig
 page = Page(ProductConfig.FACEBOOK_TOKEN)
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return 'ok'
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     page.handle_webhook(request.get_data(as_text=True))
