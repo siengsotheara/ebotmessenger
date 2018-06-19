@@ -11,6 +11,17 @@ app = Flask(__name__)
 def index():
     return 'ok'
 
+@app.route('/webhook', methods=['GET'])
+def validate():
+    if request.args.get('hub.mode', '') == 'subscribe' and \
+                    request.args.get('hub.verify_token', '') == ProductConfig.VERIFY_TOKEN:
+
+        print("Validating webhook")
+
+        return request.args.get('hub.challenge', '')
+    else:
+        return 'Failed validation. Make sure the validation tokens match.'
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     page.handle_webhook(request.get_data(as_text=True))
