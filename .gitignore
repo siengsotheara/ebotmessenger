@@ -1,0 +1,16 @@
+# ignore virtual env folder include /env, /env1 , /env2 ...
+**/env*
+
+# ignore '/bin' & '/obj' folder for vs project
+**/bin/
+**/obj/
+.vs/**
+.vscode/**
+
+# ignore all .pyc, .log files
+*.pyc
+*.log
+
+**/.idea*
+**/.DS_Store
+.DS_Store
