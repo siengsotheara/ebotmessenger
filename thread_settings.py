@@ -7,7 +7,11 @@ page.show_starting_button("START")
 
 @page.callback(['START'])
 def start_callback(payload, event):
-    print("Let's start!")
+    sender_id = event.sender_id
+    page.typing_on(sender_id)
+    page.send(sender_id, "Welcome to EBot Messenger. What can I help you?")
+    page.typing_off(sender_id)
+    print("Let's start! %s", sender_id)
 
 page.show_persistent_menu([Template.ButtonPostBack('Find Pitch', 'FIND_PITCH'),
                            Template.ButtonPostBack('Reminder', 'REMINDER'),
@@ -16,7 +20,9 @@ page.show_persistent_menu([Template.ButtonPostBack('Find Pitch', 'FIND_PITCH'),
 @page.callback(['FIND_PITCH'])
 def click_persistent_menu_find_pitch(payload, event):
     sender_id = event.sender_id
+    page.typing_on(sender_id)
     page.send(sender_id, "you clicked %s menu" % payload)
+    page.typing_off(sender_id)
     print("you clicked %s menu" % payload)
 
 @page.callback(['REMINDER'])
