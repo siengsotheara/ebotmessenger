@@ -24,7 +24,7 @@ greeting_text_data = json.dumps({
   "greeting":[
     {
       "locale":"default",
-      "text":"សួស្តី​ {{user_full_name}} !សូមស្វាគម៍មកកាន់ភ្នាក់ងារអេឡិចត្រូនិចស្វ័យប្រវត្តិក្រឌីត Welcome to KREDIT MessengerBot"
+      "text":u"សួស្តី​ {{user_full_name}} !សូមស្វាគម៍មកកាន់ភ្នាក់ងារអេឡិចត្រូនិចស្វ័យប្រវត្តិក្រឌីត Welcome to KREDIT MessengerBot"
     }
   ] 
 })
