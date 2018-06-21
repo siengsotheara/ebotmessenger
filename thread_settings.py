@@ -15,8 +15,8 @@ headers = {
     "Content-Type": "application/json"
 }
 
-def log(str):  # simple wrapper for logging to stdout on heroku
-    print str(str)
+def log(text):  # simple wrapper for logging to stdout on heroku
+    print str(text)
     sys.stdout.flush()
 
 # Greeting text
