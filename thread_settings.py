@@ -2,6 +2,7 @@ from fbmq import Template
 from app import page, ProductConfig
 import sys
 import requests
+import json
 
 
 thread_settings_url = 'https://graph.facebook.com/v2.6/me/messenger_profile'
@@ -19,8 +20,15 @@ def log(str):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 # Greeting text
-page.greeting("Hi {{user_full_name}} Welcome to Find Me Bot! My Mission is help you to easy find the pitch. :)")
-
+greeting_text_data = json.dumps({
+  "greeting":[
+    {
+      "locale":"default",
+      "text":"សួស្តី​ {{user_full_name}} !សូមស្វាគម៍មកកាន់ភ្នាក់ងារអេឡិចត្រូនិចស្វ័យប្រវត្តិក្រឌីត Welcome to KREDIT MessengerBot"
+    }
+  ] 
+})
+requests.post(thread_settings_url, params=params, headers=headers, data=greeting_text_data)
 page.show_starting_button("START")
 
 @page.callback(['START'])
