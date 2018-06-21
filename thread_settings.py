@@ -27,7 +27,7 @@ page.show_starting_button("START")
 def start_callback(payload, event):
     sender_id = event.sender_id
     page.typing_on(sender_id)
-    page.send(sender_id, "Hi Welcome to EBot Messenger. What can I help you?")
+    page.send(sender_id, "Welcome to EBot Messenger. What can I help you?")
     page.typing_off(sender_id)
     print("Let's start! %s", sender_id)
 
@@ -67,7 +67,7 @@ persistent_menu_data = '''{
           "title":"Latest News",
           "url":"http://www.messenger.com/",
           "webview_height_ratio":"full"
-        }
+        },
         {
           "type":"web_url",
           "title":"Help",
