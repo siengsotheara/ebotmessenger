@@ -20,8 +20,9 @@ def log(str):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 # Greeting text
-greeting_text_data = '''{
-  "greeting":[
+greeting_text_data = '''
+{
+	"greeting":[
     {
       "locale":"default",
       "text":"Hi {{user_full_name}} Welcome to Phillip Banki Plc. Bot. May I help you?"
@@ -29,7 +30,9 @@ greeting_text_data = '''{
   ] 
 }
 '''
+log("greeting_text_data: " + greeting_text_data)
 requests.post(thread_settings_url, params=params, headers=headers, data=greeting_text_data)
+
 page.show_starting_button("START")
 
 @page.callback(['START'])
