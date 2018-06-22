@@ -36,12 +36,12 @@ def start_payload_callback(payload, event):
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
 
-persistent_menu_data = '''
+persistent_menu_data = json.dumps(
 {
   "persistent_menu":[
 	{
 	  "locale":"default",
-	  "composer_input_disabled": false,
+	  "composer_input_disabled": False,
 	  "call_to_actions":[
 			{
 				"title":"My Account",
@@ -49,8 +49,8 @@ persistent_menu_data = '''
 				"call_to_actions":[
 					{
 						"title":"Check Balance",
-						"type":"postback",    
-						"payload":"CHECK_BALANCE_PAYLOAD"
+						"type":"web_url",    
+						"url":"%s" % redirect(url_for('payment'))
 					},
 					{	
 						"title":"Transfer Money",
@@ -114,13 +114,12 @@ persistent_menu_data = '''
 	  ]
 	}
   ]
-}
-'''
+})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
 
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
 def click_check_balance_payload(payload, event):
-	page.send(event.sender_id, 'click check balance')
+	pass
 
 
 @page.callback(['TOP_UP_PAYLOAD'])
