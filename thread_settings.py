@@ -1,5 +1,5 @@
 ﻿from fbmq import Template, QuickReply
-from app import page, ProductConfig
+from app import page, ProductConfig, url_for, render_template, redirect
 import sys
 import requests
 import json
@@ -19,7 +19,7 @@ greeting_text_data = json.dumps({
 	"greeting" : [
 	{
 	  "locale":"default",
-	  "text":"Hello {{user_full_name}}"
+	  "text":u"Hello {{user_full_name}} ាសដាសដសដ"
 	}
  ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)

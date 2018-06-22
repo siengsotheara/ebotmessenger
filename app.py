@@ -1,5 +1,5 @@
 ﻿import os 
-from flask import Flask, request
+from flask import Flask, request, render_template, redirect, url_for
 from fbmq import Page, Template
 from config import ProductConfig
 
@@ -8,7 +8,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'ok'
+    return redirect(url_for('payment'))
+
+@app.route('/payment')
+def payment():
+    return render_template('payment.html')
+
 
 @app.route('/webhook', methods=['GET'])
 def validate():
