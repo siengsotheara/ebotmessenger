@@ -95,38 +95,29 @@ persistent_menu_data = '''{
 }'''
 requests.post(url=thread_settings_url, params=params, headers=headers, data=persistent_menu_data)
 
-quick_replies = [
-	QuickReply(title="Action", payload="PICK_ACTION"),
-	QuickReply(title="Comedy", payload="PICK_COMEDY")
-]
 
 
-page.send(recipient_id, 
-		  "What's your favorite movie genre?",
-		  quick_replies=quick_replies,
-		  metadata="DEVELOPER_DEFINED_METADATA")
 
-
-page.send(recipient_id, Template.Generic([
-  Template.GenericElement("rift",
-						  subtitle="Next-generation virtual reality",
-						  item_url="https://www.oculus.com/en-us/rift/",
-						  image_url=CONFIG['SERVER_URL'] + "/assets/rift.png",
-						  buttons=[
-							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
-							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
-							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
-						  ]),
-  Template.GenericElement("touch",
-						  subtitle="Your Hands, Now in VR",
-						  item_url="https://www.oculus.com/en-us/touch/",
-						  image_url=CONFIG['SERVER_URL'] + "/assets/touch.png",
-						  buttons=[
-							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
-							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
-							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
-						  ])
-]))
+#page.send(recipient_id, Template.Generic([
+#  Template.GenericElement("rift",
+#						  subtitle="Next-generation virtual reality",
+#						  item_url="https://www.oculus.com/en-us/rift/",
+#						  image_url=CONFIG['SERVER_URL'] + "/assets/rift.png",
+#						  buttons=[
+#							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
+#							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
+#							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
+#						  ]),
+#  Template.GenericElement("touch",
+#						  subtitle="Your Hands, Now in VR",
+#						  item_url="https://www.oculus.com/en-us/touch/",
+#						  image_url=CONFIG['SERVER_URL'] + "/assets/touch.png",
+#						  buttons=[
+#							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
+#							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
+#							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
+#						  ])
+#]))
 
 @page.callback(['PAYBILL_PAYLOAD'])
 def click_persistent_menu_find_pitch(payload, event):
@@ -134,6 +125,18 @@ def click_persistent_menu_find_pitch(payload, event):
 	page.typing_on(sender_id)
 	page.send(sender_id, "you clicked %s menu" % payload)
 	page.typing_off(sender_id)
+
+	quick_replies = [
+		QuickReply(title="Action", payload="PICK_ACTION"),
+		QuickReply(title="Comedy", payload="PICK_COMEDY")
+	]
+
+	print quick_replies
+
+	page.send(recipient_id, 
+		  "What's your favorite movie genre?",
+		  quick_replies=quick_replies,
+		  metadata="DEVELOPER_DEFINED_METADATA")
 	print("you clicked %s menu" % payload)
 
 @page.callback(['NEWS'])
