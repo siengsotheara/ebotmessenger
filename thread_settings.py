@@ -19,7 +19,7 @@ greeting_text_data = json.dumps({
 	"greeting" : [
 	{
 	  "locale":"default",
-	  "text":u"សួស្តី {{user_full_name}}"
+	  "text":"Hello {{user_full_name}}"
 	}
  ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
@@ -47,17 +47,17 @@ persistent_menu_data = '''{
 		  "type":"nested",
 		  "call_to_actions":[
 			{
-			  "title":"Check Balance /ពិនិត្យទឹកប្រាក់",
+			  "title":"Check Balance",
+			  "type":"postback",    
+			  "payload":"CHECK_BALANCE_PAYLOAD"
+			},
+			{
+			  "title":"Transfer Money",
 			  "type":"postback",    
 			  "payload":"PAYBILL_PAYLOAD"
 			},
 			{
-			  "title":"Pay Bill",
-			  "type":"postback",    
-			  "payload":"PAYBILL_PAYLOAD"
-			},
-			{
-			  "title":"Pay Bill",
+			  "title":"Top up",
 			  "type":"postback",    
 			  "payload":"PAYBILL_PAYLOAD"
 			},
@@ -76,7 +76,7 @@ persistent_menu_data = '''{
 		{
 		  "type":"web_url",
 		  "title":"Latest News",
-		  "url":"http://www.messenger.com/",
+		  "url":"https://kredit.com.kh/en",
 		  "webview_height_ratio":"full"
 		},
 		{
@@ -91,9 +91,14 @@ persistent_menu_data = '''{
 }'''
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
 
+@page.callback(['CHECK_BALANCE_PAYLOAD'])
+def click_check_balance_payload(payload, event):
+	page.send(event.sender_id, 'click check balance')
 
 
-
+@page.callback(['TOP_UP_PAYLOAD'])
+def click_top_up_payload(payload, event):
+	page.send(event.sender_id, 'click top up')
 
 @page.callback(['PAYBILL_PAYLOAD'])
 def click_persistent_menu_find_pitch(payload, event):
