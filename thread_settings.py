@@ -1,4 +1,4 @@
-﻿from fbmq import Template
+﻿from fbmq import Template, QuickReply
 from app import page, ProductConfig
 import sys
 import requests
