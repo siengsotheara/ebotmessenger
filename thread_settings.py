@@ -11,20 +11,17 @@ params = {
 	"access_token": token
 }
 headers = {
-	"Content-Type": "application/json;charset=UTF-8"
+	"Content-Type": "application/json"
 }
 
 # Greeting text
-greeting_text_data = '''
-{
-	"greeting":[
+greeting_text_data = json.dumps({
+	"greeting" : [
 	{
 	  "locale":"default",
-	  "text":"សួស្តី {{user_full_name}}"
+	  "text":u"សួស្តី {{user_full_name}}"
 	}
-  ] 
-}
-'''
+ ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
 
 
