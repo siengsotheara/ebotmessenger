@@ -1,2 +1,2 @@
-# ebotmessenger
+# KREDIT MessengerBot
 Test

@@ -1,5 +1,4 @@
-
-import os 
+﻿import os 
 from flask import Flask, request
 from fbmq import Page, Template
 from config import ProductConfig
