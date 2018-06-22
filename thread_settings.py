@@ -11,7 +11,7 @@ params = {
 	"access_token": token
 }
 headers = {
-	"Content-Type": "application/json"
+	"Content-Type": "application/json;charset=UTF-8"
 }
 
 # Greeting text
@@ -49,6 +49,16 @@ persistent_menu_data = '''{
 		  "title":"My Account",
 		  "type":"nested",
 		  "call_to_actions":[
+			{
+			  "title":"Check Balance /ពិនិត្យទឹកប្រាក់",
+			  "type":"postback",    
+			  "payload":"PAYBILL_PAYLOAD"
+			},
+			{
+			  "title":"Pay Bill",
+			  "type":"postback",    
+			  "payload":"PAYBILL_PAYLOAD"
+			},
 			{
 			  "title":"Pay Bill",
 			  "type":"postback",    
