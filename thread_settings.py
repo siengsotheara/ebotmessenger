@@ -1,5 +1,5 @@
 ﻿from fbmq import Template, QuickReply
-from app import page, ProductConfig, url_for, render_template, redirect
+from app import page, ProductConfig, url_for, render_template, redirect, request
 import sys
 import requests
 import json
@@ -50,7 +50,8 @@ persistent_menu_data = json.dumps(
 					{
 						"title":"Check Balance",
 						"type":"web_url",    
-						"url":"%s" % redirect(url_for('payment'))
+						"url":"https://ebotmessenger.herokuapp.com/payment",
+						"webview_height_ratio":"full"
 					},
 					{	
 						"title":"Transfer Money",
