@@ -4,8 +4,7 @@ import sys
 import requests
 import json
 
-
-thread_settings_url = 'https://graph.facebook.com/v2.6/me/messenger_profile'
+url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 token = ProductConfig.FACEBOOK_TOKEN
 
 params = {
@@ -27,7 +26,7 @@ greeting_text_data = '''
 }
 '''
 print ("greeting_text_data: " + greeting_text_data)
-requests.post(thread_settings_url, params=params, headers=headers, data=greeting_text_data)
+requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
 
 page.show_starting_button("START_PAYLOAD")
 
@@ -79,21 +78,10 @@ persistent_menu_data = '''{
 		  "webview_height_ratio":"full"
 		}
 	  ]
-	},
-	{
-	  "locale":"default",
-	  "composer_input_disabled":false,
-	  "call_to_actions":[
-		{
-		  "title":"Pay Bill",
-		  "type":"postback",
-		  "payload":"PAYBILL_PAYLOAD"
-		}
-	  ]    
 	}
   ]
 }'''
-requests.post(url=thread_settings_url, params=params, headers=headers, data=persistent_menu_data)
+requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
 
 
 
