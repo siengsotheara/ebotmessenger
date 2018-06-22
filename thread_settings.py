@@ -36,59 +36,86 @@ def start_payload_callback(payload, event):
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
 
-persistent_menu_data = '''{
+persistent_menu_data = '''
+{
   "persistent_menu":[
 	{
 	  "locale":"default",
 	  "composer_input_disabled": false,
 	  "call_to_actions":[
-		{
-		  "title":"My Account",
-		  "type":"nested",
-		  "call_to_actions":[
 			{
-			  "title":"Check Balance",
-			  "type":"postback",    
-			  "payload":"CHECK_BALANCE_PAYLOAD"
+				"title":"My Account",
+				"type":"nested",
+				"call_to_actions":[
+					{
+						"title":"Check Balance",
+						"type":"postback",    
+						"payload":"CHECK_BALANCE_PAYLOAD"
+					},
+					{	
+						"title":"Transfer Money",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					},
+					{
+						"title":"Top up",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					},
+					{
+						"title":"History",
+						"type":"postback",
+						"payload":"HISTORY_PAYLOAD"
+					},
+					{
+						"title":"Contact Info",
+						"type":"postback",
+						"payload":"CONTACT_INFO_PAYLOAD"
+					}
+				]
 			},
 			{
-			  "title":"Transfer Money",
-			  "type":"postback",    
-			  "payload":"PAYBILL_PAYLOAD"
+				"title":"My Profile",
+				"type":"nested",
+				"call_to_actions":[
+					{
+						"title":"Menu1",
+						"type":"postback",    
+						"payload":"CHECK_BALANCE_PAYLOAD"
+					},
+					{	
+						"title":"Menu2",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					},
+					{
+						"title":"Menu3",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					},
+					{
+						"title":"Menu4",
+						"type":"postback",
+						"payload":"HISTORY_PAYLOAD"
+					},
+					{
+						"title":"Menu5",
+						"type":"postback",
+						"payload":"CONTACT_INFO_PAYLOAD"
+					}
+				]
 			},
 			{
-			  "title":"Top up",
-			  "type":"postback",    
-			  "payload":"PAYBILL_PAYLOAD"
-			},
-			{
-			  "title":"History",
-			  "type":"postback",
-			  "payload":"HISTORY_PAYLOAD"
-			},
-			{
-			  "title":"Contact Info",
-			  "type":"postback",
-			  "payload":"CONTACT_INFO_PAYLOAD"
+				"type":"web_url",
+				"title":"Help",
+				"url":"http://www.messenger.com/",
+				"webview_height_ratio":"full"
 			}
-		  ]
-		},
-		{
-		  "type":"web_url",
-		  "title":"Latest News",
-		  "url":"https://kredit.com.kh/en",
-		  "webview_height_ratio":"full"
-		},
-		{
-		  "type":"web_url",
-		  "title":"Help",
-		  "url":"http://www.messenger.com/",
-		  "webview_height_ratio":"full"
-		}
 	  ]
 	}
   ]
-}'''
+}
+'''
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
 
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
