@@ -41,7 +41,7 @@ persistent_menu_data = '''{
   "persistent_menu":[
 	{
 	  "locale":"default",
-	  "composer_input_disabled": true,
+	  "composer_input_disabled": false,
 	  "call_to_actions":[
 		{
 		  "title":"My Account",
@@ -111,19 +111,18 @@ def click_persistent_menu_find_pitch(payload, event):
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
 	page.send(sender_id, "you clicked %s menu" % payload)
-	page.typing_off(sender_id)
+	
 
 	quick_replies = [
 		QuickReply(title="Action", payload="PICK_ACTION"),
 		QuickReply(title="Comedy", payload="PICK_COMEDY")
 	]
 
-	print quick_replies
-
-	page.send(recipient_id, 
+	page.send(sender_id, 
 		  "What's your favorite movie genre?",
 		  quick_replies=quick_replies,
 		  metadata="DEVELOPER_DEFINED_METADATA")
+	page.typing_off(sender_id)
 	print("you clicked %s menu" % payload)
 
 @page.callback(['NEWS'])
