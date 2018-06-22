@@ -19,7 +19,7 @@ greeting_text_data = json.dumps({
 	"greeting" : [
 	{
 	  "locale":"default",
-	  "text":u"Hello {{user_full_name}} ាសដាសដសដ"
+	  "text":u"Hello {{user_full_name}} សួស្តី"
 	}
  ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
@@ -32,7 +32,7 @@ page.show_starting_button("START_PAYLOAD")
 def start_payload_callback(payload, event):
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
-	page.send(sender_id, "Welcome to EBot Messenger. What can I help you?")
+	page.send(sender_id, u"សូមស្វាគមន័ មានអ្វីអោយខ្ញុំជួយដែរ?")
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
 
