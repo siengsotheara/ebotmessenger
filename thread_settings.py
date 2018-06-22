@@ -20,12 +20,14 @@ greeting_text_data = '''
 	"greeting":[
 	{
 	  "locale":"default",
-	  "text":"Hi {{user_full_name}} Welcome to Phillip Banki Plc. Bot. May I help you?"
+	  "text":"សួស្តី {{user_full_name}}"
 	}
   ] 
 }
 '''
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
+
+
 
 page.show_starting_button("START_PAYLOAD")
 
@@ -85,26 +87,6 @@ requests.post(url=url_messenger_profile, params=params, headers=headers, data=pe
 
 
 
-#page.send(recipient_id, Template.Generic([
-#  Template.GenericElement("rift",
-#						  subtitle="Next-generation virtual reality",
-#						  item_url="https://www.oculus.com/en-us/rift/",
-#						  image_url=CONFIG['SERVER_URL'] + "/assets/rift.png",
-#						  buttons=[
-#							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
-#							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
-#							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
-#						  ]),
-#  Template.GenericElement("touch",
-#						  subtitle="Your Hands, Now in VR",
-#						  item_url="https://www.oculus.com/en-us/touch/",
-#						  image_url=CONFIG['SERVER_URL'] + "/assets/touch.png",
-#						  buttons=[
-#							  Template.ButtonWeb("Open Web URL", "https://www.oculus.com/en-us/rift/"),
-#							  Template.ButtonPostBack("tigger Postback", "DEVELOPED_DEFINED_PAYLOAD"),
-#							  Template.ButtonPhoneNumber("Call Phone Number", "+855010335644")
-#						  ])
-#]))
 
 @page.callback(['PAYBILL_PAYLOAD'])
 def click_persistent_menu_find_pitch(payload, event):
