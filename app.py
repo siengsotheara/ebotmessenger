@@ -28,17 +28,12 @@ def webhook():
     return "ok"
 
 @page.handle_message
-def message_handler(event):
-    """:type event: fbmq.Event"""
-    sender_id = event.sender_id
-    message = event.message_text
-  
-    page.send(sender_id, "thank you! your message is '%s'" % message)
+def handle_message(event):
+    pass
 
 @page.after_send
 def after_send(payload, response):
-    """:type payload:s fbmq.Payload"""
-    print("complete")
+    print response
 
 import thread_settings
 
