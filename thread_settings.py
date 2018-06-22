@@ -25,7 +25,6 @@ greeting_text_data = '''
   ] 
 }
 '''
-print ("greeting_text_data: " + greeting_text_data)
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
 
 page.show_starting_button("START_PAYLOAD")
