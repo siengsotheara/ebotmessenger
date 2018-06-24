@@ -6,6 +6,7 @@ import json
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 token = ProductConfig.FACEBOOK_TOKEN
+casa = ProductConfig.CASA_LINK
 
 params = {
 	"access_token": token
