@@ -20,7 +20,7 @@ greeting_text_data = json.dumps({
 	"greeting" : [
 	{
 	  "locale":"default",
-	  "text":u"Hello {{user_full_name}} សួស្តី"
+	  "text": u"សួស្តី {{user_full_name}} សូមស្វាគមន៍មកកាន់ ក្រេឌីត FB Messenger Chatbot សូមចុច Get Start ដើម្បីចាប់ផ្តើមជាមួយគ្នា។"
 	}
  ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
@@ -33,7 +33,8 @@ page.show_starting_button("START_PAYLOAD")
 def start_payload_callback(payload, event):
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
-	page.send(sender_id, u"សូមស្វាគមន័ មានអ្វីអោយខ្ញុំជួយដែរ?")
+	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
+	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
 

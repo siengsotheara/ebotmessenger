@@ -1,7 +1,7 @@
 ﻿import os 
 from flask import Flask, request, render_template, redirect, url_for
 from fbmq import Page, Template
-from config import ProductConfig
+from config import SECRET_KEY, RECAPTCHA_PUBLIC_KEY, ProductConfig
 
 from flask_material import Material  
 from flask_wtf import Form, RecaptchaField
@@ -13,11 +13,12 @@ from wtforms.validators import Required
 page = Page(ProductConfig.FACEBOOK_TOKEN)
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'USE-YOUR-OWN-SECRET-KEY-DAMNIT'
-app.config['RECAPTCHA_PUBLIC_KEY'] = 'TEST'
+app.config['SECRET_KEY'] = SECRET_KEY
+app.config['RECAPTCHA_PUBLIC_KEY'] = RECAPTCHA_PUBLIC_KEY
 
 
 Material(app)
+app.config.setdefault('MATERIAL_SERVE_LOCAL', True)
 
 # straight from the wtforms docs:
 class TelephoneForm(Form):
@@ -54,8 +55,8 @@ class ExampleForm(Form):
     def validate_hidden_field(self, form, field):
         raise ValidationError('Always wrong')
 
-@app.route('/hello')
-def hello():
+@app.route('/form')
+def test_form():
     form = ExampleForm()   
     return render_template('test.html', form = form) 
 
@@ -85,17 +86,18 @@ def webhook():
     page.handle_webhook(request.get_data(as_text=True))
     return "ok"
 
-@page.handle_message
-def handle_message(event):
-    pass
+# @page.handle_message
+# def handle_message(event):
+#     pass
 
-@page.after_send
-def after_send(payload, response):
-    print response
+# @page.after_send
+# def after_send(payload, response):
+#     print response
 
 
-import thread_settings
+# import thread_settings
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    app.debug = True
     app.run('0.0.0.0', port)
