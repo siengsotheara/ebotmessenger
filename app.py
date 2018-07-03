@@ -107,8 +107,11 @@ def handle_error(error):
             'message': message
         }
     }
-
     return jsonify(response), status_code
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return jsonify({'error':'not found'}), 404
 
 import thread_settings
 
