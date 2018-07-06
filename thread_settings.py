@@ -20,12 +20,10 @@ greeting_text_data = json.dumps({
 	"greeting" : [
 	{
 	  "locale":"default",
-	  "text": u"សួស្តី {{user_full_name}} សូមស្វាគមន៍មកកាន់ ក្រេឌីត FB Messenger Chatbot សូមចុច Get Start ដើម្បីចាប់ផ្តើមជាមួយគ្នា។"
+	  "text": u"សួស្តី {{user_full_name}} សូមស្វាគមន៍មកកាន់ ក្រេឌីត FB Messenger Chatbot"
 	}
  ]})
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=greeting_text_data)
-
-
 
 page.show_starting_button("START_PAYLOAD")
 
@@ -33,7 +31,7 @@ page.show_starting_button("START_PAYLOAD")
 def start_payload_callback(payload, event):
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
-	page.send(sender_id, u"{{user_full_name}}, welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
+	page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
 	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
 	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
 	page.typing_off(sender_id)
@@ -56,25 +54,15 @@ persistent_menu_data = json.dumps(
 						"url":"https://ebotmessenger.herokuapp.com/payment",
 						"webview_height_ratio":"full"
 					},
-					{	
-						"title":"Transfer Money",
+					{
+						"title":"Top Up",
 						"type":"postback",    
-						"payload":"PAYBILL_PAYLOAD"
+						"payload":"TOPUP_PAYLOAD"
 					},
 					{
-						"title":"Top up",
-						"type":"postback",    
-						"payload":"PAYBILL_PAYLOAD"
-					},
-					{
-						"title":"History",
+						"title":"ATM Location",
 						"type":"postback",
-						"payload":"HISTORY_PAYLOAD"
-					},
-					{
-						"title":"Contact Info",
-						"type":"postback",
-						"payload":"CONTACT_INFO_PAYLOAD"
+						"payload":"ATM_PAYLOAD"
 					}
 				]
 			},
@@ -83,7 +71,7 @@ persistent_menu_data = json.dumps(
 				"type":"nested",
 				"call_to_actions":[
 					{
-						"title":"Menu1",
+						"title":"Take Photo AR",
 						"type":"postback",    
 						"payload":"CHECK_BALANCE_PAYLOAD"
 					},
@@ -96,16 +84,6 @@ persistent_menu_data = json.dumps(
 						"title":"Menu3",
 						"type":"postback",    
 						"payload":"PAYBILL_PAYLOAD"
-					},
-					{
-						"title":"Menu4",
-						"type":"postback",
-						"payload":"HISTORY_PAYLOAD"
-					},
-					{
-						"title":"Menu5",
-						"type":"postback",
-						"payload":"CONTACT_INFO_PAYLOAD"
 					}
 				]
 			},
@@ -121,10 +99,27 @@ persistent_menu_data = json.dumps(
 })
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
 
+
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
 def click_check_balance_payload(payload, event):
-	pass
+	page.send(event.sender_id, 'click check balance')
 
+@page.callback(['ATM_PAYLOAD'])
+def click_atm_payload(payload, event):
+	page.send(event.sender_id, 'Please send me your current location now. I will help find the nearest ATM for you.')
+
+	location_request = json.dumps({
+  		"recipient":{
+    		"id": event.sender_id
+  		},
+  		"message":{
+    		"text": "Send me your current location now. I'll help you!",
+    		"quick_replies":[{
+        		"content_type":"location"
+      		}]	
+  		}
+	})
+	requests.post(url=url_messenger_profile, params=params, headers=headers, data=location_request)
 
 @page.callback(['TOP_UP_PAYLOAD'])
 def click_top_up_payload(payload, event):
