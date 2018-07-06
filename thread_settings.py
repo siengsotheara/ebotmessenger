@@ -106,19 +106,19 @@ def click_check_balance_payload(payload, event):
 
 @page.callback(['ATM_PAYLOAD'])
 def click_atm_payload(payload, event):
-	page.send(event.sender_id, 'Please send me your current location now. I will help find the nearest ATM for you.')
-
+	print 'location access'
 	location_request = json.dumps({
   		"recipient":{
     		"id": event.sender_id
   		},
   		"message":{
-    		"text": "Send me your current location now. I'll help you!",
+    		"text": "Please send me your current location now. I will help find the nearest ATM for you.",
     		"quick_replies":[{
         		"content_type":"location"
       		}]	
   		}
 	})
+	print "json: %s", location_request
 	requests.post(url=url_messenger_profile, params=params, headers=headers, data=location_request)
 
 @page.callback(['TOP_UP_PAYLOAD'])
