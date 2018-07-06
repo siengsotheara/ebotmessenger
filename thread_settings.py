@@ -5,6 +5,7 @@ import requests
 import json
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
+url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
 token = ProductConfig.FACEBOOK_TOKEN
 casa = ProductConfig.CASA_LINK
 
@@ -120,7 +121,7 @@ def click_atm_payload(payload, event):
   		}
 	})
 	print "json: %s", location_request
-	requests.post(url=url_messenger_profile, params=params, headers=headers, data=location_request)
+	requests.post(url=url_messenger_message, params=params, headers=headers, data=location_request)
 
 @page.callback(['TOP_UP_PAYLOAD'])
 def click_top_up_payload(payload, event):
