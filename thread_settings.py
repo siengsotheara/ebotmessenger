@@ -107,6 +107,7 @@ def click_check_balance_payload(payload, event):
 @page.callback(['ATM_PAYLOAD'])
 def click_atm_payload(payload, event):
 	print 'location access'
+	print "id ", event.sender_id
 	location_request = json.dumps({
   		"recipient":{
     		"id": event.sender_id
