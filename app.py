@@ -1,7 +1,10 @@
-﻿import os 
+﻿import requests
+import sys
+import os 
+import json
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
-from fbmq import Page, Template
-from config import SECRET_KEY, RECAPTCHA_PUBLIC_KEY, ProductConfig
+from fbmq import Page, Template, Template, QuickReply
+from config import *
 
 from flask_material import Material  
 from flask_wtf import Form, RecaptchaField
@@ -9,14 +12,13 @@ from flask_wtf.file import FileField
 from wtforms import TextField, HiddenField, ValidationError, RadioField,BooleanField, SubmitField, IntegerField, FormField, validators
 from wtforms.validators import Required
 
-
-page = Page(ProductConfig.FACEBOOK_TOKEN)
+page = Page(FACEBOOK_TOKEN)
 app = Flask(__name__)
 errors = Blueprint('errors', __name__)
+data = None
 
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_PUBLIC_KEY'] = RECAPTCHA_PUBLIC_KEY
-
 
 Material(app)
 app.config.setdefault('MATERIAL_SERVE_LOCAL', True)
@@ -83,7 +85,8 @@ def validate():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    print 'test: ',request.get_json()
+    data = request.get_json()
+    print data
     page.handle_webhook(request.get_data(as_text=True))
     return "ok"
 
@@ -113,7 +116,153 @@ def handle_error(error):
 def page_not_found(e):
     return jsonify({'error':'not found'}), 404
 
-import thread_settings
+url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
+url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
+token = FACEBOOK_TOKEN
+casa = CASA_LINK
+
+params = {
+	"access_token": token
+}
+headers = {
+	"Content-Type": "application/json"
+}
+
+page.greeting('Hello {{user_full_name}} Welcome to FB Messenger Chatbot')
+
+
+page.show_starting_button("START_PAYLOAD")
+
+@page.callback(['START_PAYLOAD'])
+def start_payload_callback(payload, event):
+	sender_id = event.sender_id
+	page.typing_on(sender_id)
+	page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
+	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
+	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
+	page.typing_off(sender_id)
+	print ("Let's start! %s", sender_id)
+
+persistent_menu_data = json.dumps(
+{
+  "persistent_menu":[
+	{
+	  "locale":"default",
+	  "composer_input_disabled": False,
+	  "call_to_actions":[
+			{
+				"title":"My Account",
+				"type":"nested",
+				"call_to_actions":[
+					{
+						"title":"Check Balance",
+						"type":"web_url",    
+						"url":"https://ebotmessenger.herokuapp.com/payment",
+						"webview_height_ratio":"full"
+					},
+					{
+						"title":"Top Up",
+						"type":"postback",    
+						"payload":"TOPUP_PAYLOAD"
+					},
+					{
+						"title":"ATM Location",
+						"type":"postback",
+						"payload":"ATM_PAYLOAD"
+					}
+				]
+			},
+			{
+				"title":"My Profile",
+				"type":"nested",
+				"call_to_actions":[
+					{
+						"title":"Take Photo AR",
+						"type":"postback",    
+						"payload":"CHECK_BALANCE_PAYLOAD"
+					},
+					{	
+						"title":"Menu2",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					},
+					{
+						"title":"Menu3",
+						"type":"postback",    
+						"payload":"PAYBILL_PAYLOAD"
+					}
+				]
+			},
+			{
+				"type":"web_url",
+				"title":"Help",
+				"url":"http://www.messenger.com/",
+				"webview_height_ratio":"full"
+			}
+	  ]
+	}
+  ]
+})
+requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
+
+
+@page.callback(['CHECK_BALANCE_PAYLOAD'])
+def click_check_balance_payload(payload, event):
+	page.send(event.sender_id, 'click check balance')
+
+@page.callback(['ATM_PAYLOAD'])
+def click_atm_payload(payload, event):
+	print 'location access'
+	print "id ", event.sender_id
+	location_request = json.dumps({
+  		"recipient":{
+    		"id": event.sender_id
+  		},
+  		"message":{
+    		"text": "Please send me your current location now. I will help find the nearest ATM for you.",
+    		"quick_replies":[{
+        		"content_type":"location"
+      		}]	
+  		}
+	})
+	print "json: %s", location_request
+	requests.post(url=url_messenger_message, params=params, headers=headers, data=location_request)
+	print "data: ",data
+
+@page.callback(['TOP_UP_PAYLOAD'])
+def click_top_up_payload(payload, event):
+	page.send(event.sender_id, 'click top up')
+
+@page.callback(['PAYBILL_PAYLOAD'])
+def click_persistent_menu_find_pitch(payload, event):
+	sender_id = event.sender_id
+	page.typing_on(sender_id)
+	page.send(sender_id, "you clicked %s menu" % payload)
+	
+
+	quick_replies = [
+		QuickReply(title="Action", payload="PICK_ACTION"),
+		QuickReply(title="Comedy", payload="PICK_COMEDY")
+	]
+
+	page.send(sender_id, 
+		  "What's your favorite movie genre?",
+		  quick_replies=quick_replies,
+		  metadata="DEVELOPER_DEFINED_METADATA")
+	page.typing_off(sender_id)
+	print("you clicked %s menu" % payload)
+
+@page.callback(['NEWS'])
+def click_persistent_menu_reminder(payload, event):
+	sender_id = event.sender_id
+	page.send(sender_id, "you clicked %s menu" % payload)
+	print("you clicked %s menu" % payload)
+
+@page.callback(['CONTACT_INFO_PAYLOAD'])
+def click_persistent_menu_help(payload, event):
+	sender_id = event.sender_id
+	page.send(sender_id, "you clicked %s menu" % payload)
+	print("you clicked %s menu" % payload)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
