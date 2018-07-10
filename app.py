@@ -75,7 +75,7 @@ def payment():
 @app.route('/webhook', methods=['GET'])
 def validate():
     if request.args.get('hub.mode', '') == 'subscribe' and \
-                    request.args.get('hub.verify_token', '') == ProductConfig.VERIFY_TOKEN:
+                    request.args.get('hub.verify_token', '') == VERIFY_TOKEN:
 
         print("Validating webhook")
 
@@ -204,7 +204,6 @@ persistent_menu_data = json.dumps(
   ]
 })
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
-
 
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
 def click_check_balance_payload(payload, event):
