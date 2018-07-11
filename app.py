@@ -4,7 +4,7 @@ import os
 import json
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
 from fbmq import Page, Template, Template, QuickReply
-from config import *
+from config import FACEBOOK_TOKEN,VERIFY_TOKEN, SECRET_KEY, RECAPTCHA_PUBLIC_KEY,CASA_LINK	
 
 from flask_material import Material  
 from flask_wtf import Form, RecaptchaField
@@ -86,7 +86,7 @@ def validate():
 @app.route('/webhook', methods=['POST'])
 def webhook():
 	data = request.get_json()
-	print data
+	print "data: ",data
 	page.handle_webhook(request.get_data(as_text=True))
 	return "ok"
 
@@ -140,6 +140,27 @@ def start_payload_callback(payload, event):
 	page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
 	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
 	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
+	d = {
+  		"recipient":{
+    		"id":sender_id
+  		},
+  		"message":{
+    		"attachment":{
+      		"type":"template",
+      		"payload":{
+        		"template_type":"button",
+        		"text":"Try the log in button!",
+        		"buttons":[
+          			{
+						"type": "account_link",
+						"url": "https://www.example.com/authorize"
+          			}
+        			]
+      			}
+    		}
+  		}
+	}
+	requests.post(url=url_messenger_message, params=params, headers=headers, data=d)
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
 
@@ -153,12 +174,7 @@ persistent_menu_data = json.dumps(
 			{
 				"title":"My Account",
 				"type":"nested",
-				"call_to_actions":[
-					{
-						"title":"Login",
-						"type":"account_link",    
-						"url":"https://ebotmessenger.herokuapp.com/payment"
-					},
+				"call_to_actions":[					
 					{
 						"title":"Top Up",
 						"type":"postback",    
@@ -193,12 +209,11 @@ persistent_menu_data = json.dumps(
 				]
 			},
 			{
-				"type":"web_url",
 				"title":"Help",
-				"url":"http://www.messenger.com/",
-				"webview_height_ratio":"full"
+				"type":"postback",
+				"payload":"Payload"
 			}
-	  ]
+	   ]
 	}
   ]
 })
