@@ -140,7 +140,7 @@ def start_payload_callback(payload, event):
 	page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
 	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
 	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
-	d = {
+	d = json.dumps({
   		"recipient":{
     		"id":sender_id
   		},
@@ -159,7 +159,7 @@ def start_payload_callback(payload, event):
       			}
     		}
   		}
-	}
+	})
 	requests.post(url=url_messenger_message, params=params, headers=headers, data=d)
 	page.typing_off(sender_id)
 	print ("Let's start! %s", sender_id)
