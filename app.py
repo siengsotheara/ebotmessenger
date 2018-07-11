@@ -155,10 +155,9 @@ persistent_menu_data = json.dumps(
 				"type":"nested",
 				"call_to_actions":[
 					{
-						"title":"Check Balance",
-						"type":"web_url",    
-						"url":"https://ebotmessenger.herokuapp.com/payment",
-						"webview_height_ratio":"full"
+						"title":"Login",
+						"type":"account_link",    
+						"url":"https://ebotmessenger.herokuapp.com/payment"
 					},
 					{
 						"title":"Top Up",
