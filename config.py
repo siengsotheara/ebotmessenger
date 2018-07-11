@@ -1,4 +1,4 @@
-import os
+﻿import os
 
 SECRET_KEY = 'secret'
 RECAPTCHA_PUBLIC_KEY = 'TEST'
@@ -7,3 +7,4 @@ FACEBOOK_TOKEN = "EAAG8ZCCEzUlEBAI5DiewsBvJrd3kADU8dCZAZBP6X5am7ZBrsV4G3pLIAnZAC
 VERIFY_TOKEN = "ebot messenger$$"
 
 CASA_LINK = ""
+SQLALCHEMY_DATABASE_URI = ""
