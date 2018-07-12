@@ -2,6 +2,8 @@
 import sys
 import os 
 import json
+import urlparse
+from werkzeug.exceptions import HTTPException
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
 from fbmq import Page, Template, Template, QuickReply
 from config import FACEBOOK_TOKEN,VERIFY_TOKEN, SECRET_KEY, RECAPTCHA_PUBLIC_KEY,CASA_LINK	
@@ -9,7 +11,7 @@ from config import FACEBOOK_TOKEN,VERIFY_TOKEN, SECRET_KEY, RECAPTCHA_PUBLIC_KEY
 from flask_material import Material  
 from flask_wtf import Form, RecaptchaField
 from flask_wtf.file import FileField
-from wtforms import TextField, HiddenField, ValidationError, RadioField,BooleanField, SubmitField, IntegerField, FormField, validators
+from wtforms import TextField, HiddenField, ValidationError, RadioField,BooleanField, SubmitField, IntegerField, FormField, PasswordField, validators
 from wtforms.validators import Required
 
 page = Page(FACEBOOK_TOKEN)
@@ -58,6 +60,13 @@ class ExampleForm(Form):
 	def validate_hidden_field(self, form, field):
 		raise ValidationError('Always wrong')
 
+
+class LoginForm(Form):
+	username = TextField("Username", [validators.required()])
+	password = PasswordField("Password", [validators.required()])
+
+	submit_button = SubmitField("Login")
+
 @app.route('/form')
 def test_form():
 	form = ExampleForm()   
@@ -65,7 +74,19 @@ def test_form():
 
 @app.route('/login/authorize')
 def login():
-	return render_template('login.html')
+	"""
+	Account Linking Token is never used in this demo, however it is
+	useful to know about this token in the context of account linking.
+	It can be used in a query to the Graph API to get Facebook details
+	for a user. Read More at:
+	https://developers.facebook.com/docs/messenger-platform/account-linking
+	"""
+	parsed = urlparse.urlparse(request.url)
+	account_linking_token = urlparse.parse_qs(parsed.query)['account_linking_token']
+	redirect_uri = urlparse.parse_qs(parsed.query)['redirect_uri']
+
+	form = LoginForm()
+	return render_template('login.html', form = form)
 
 @app.route('/payment')
 def payment():
@@ -88,7 +109,7 @@ def webhook():
 	data = request.get_json()
 	print "data: ",data
 	page.handle_webhook(request.get_data(as_text=True))
-	return "ok"
+	return "ok", 200
 
 @page.handle_message
 def handle_message(event):
@@ -96,7 +117,22 @@ def handle_message(event):
 
 @page.after_send
 def after_send(payload, response):
-	print response
+	print "response:", response
+
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+	message = [str(x) for x in error.args]
+
+	if isinstance(error, HTTPException):
+		code = error.code
+
+	response = {
+		'error': {
+			'type': error.__class__.__name__,
+			'message': message
+		}
+	}   
+	return jsonify(response)
 
 @errors.app_errorhandler(Exception)
 def handle_error(error):
@@ -104,22 +140,17 @@ def handle_error(error):
 	status_code = error.status_code
 	success = False
 	response = {
-		'success': success,
 		'error': {
 			'type': error.__class__.__name__,
 			'message': message
 		}
 	}
+
 	return jsonify(response), status_code
-
-@app.errorhandler(404)
-def page_not_found(e):
-	return jsonify({'error':'not found'}), 404
-
 
 import fb.threading_setup
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))
-	app.debug = False
+	app.debug = True
 	app.run('0.0.0.0', port)

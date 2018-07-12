@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿{% extends "material/base.html" %}
+{% import "material/utils.html" as util %}
+{% import "material/wtf.html" as wtf %}
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,8 +9,14 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>loign</h1>
-    Username: <input type="text"/>
-    Password: <input type="password"/>
+    {% block content %}
+    {{ container() }}
+        {{ row() }}
+            {{ col(['s12', 'm12']) }}
+                {{ util.card('Login', wtf.quick_form(form) )}}
+            {{ enddiv() }}
+        {{ enddiv() }}
+    {{ enddiv() }}
+    {% endblock %}
 </body>
 </html>
