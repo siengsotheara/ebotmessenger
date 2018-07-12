@@ -1,7 +1,4 @@
-﻿{% extends "material/base.html" %}
-{% import "material/utils.html" as util %}
-{% import "material/wtf.html" as wtf %}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -9,14 +6,10 @@
     <title>Login</title>
 </head>
 <body>
-    {% block content %}
-    {{ container() }}
-        {{ row() }}
-            {{ col(['s12', 'm12']) }}
-                {{ util.card('Login', wtf.quick_form(form) )}}
-            {{ enddiv() }}
-        {{ enddiv() }}
-    {{ enddiv() }}
-    {% endblock %}
+    <form action="." method="post">
+        {{ form.hidden_tag() if form.hidden_tag }}
+        {{ form.username }}
+        {{ form.password }}
+    </form>
 </body>
 </html>
