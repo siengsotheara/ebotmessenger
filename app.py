@@ -3,6 +3,7 @@ import sys
 import os 
 import json
 import urlparse
+import uuid
 from werkzeug.exceptions import HTTPException
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
 from fbmq import Page, Template, Template, QuickReply
@@ -30,9 +31,12 @@ class LoginForm(FlaskForm):
 			'data-val':'true',
 			'data-val-required':'Input Required'})
 
+	redirect_uri = HiddenField()
+	account_linking_token = HiddenField()
+
 	submit_button = SubmitField("Login")
 
-@app.route('/login/authorize')
+@app.route('/login/authorize', methods=['GET', 'POST'])
 def login():
 	"""
 	Account Linking Token is never used in this demo, however it is
@@ -41,12 +45,22 @@ def login():
 	for a user. Read More at:
 	https://developers.facebook.com/docs/messenger-platform/account-linking
 	"""
-	parsed = urlparse.urlparse(request.url)
-	account_linking_token = urlparse.parse_qs(parsed.query)['account_linking_token']
-	redirect_uri = urlparse.parse_qs(parsed.query)['redirect_uri']
+	
 
+	redirect_uri = request.args.get('redirect_uri')
+	account_linking_token = request.args.get('account_linking_token')
 	form = LoginForm()
-	return render_template('login.html', form = form)
+	form.redirect_uri = HiddenField(render_kw={'value':redirect_uri})
+	if request.method == 'POST':
+		if form.validate_on_submit():
+			username = form.username.data
+			password = form.password.data
+			redirectURI= form.redirect_uri
+			
+			if username == "admin" and password == "admin":
+				return redirect(url_for('/{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex)))
+
+	return render_template('login.html', form = form , redirect_uri=redirect_uri)
 
 @app.route('/payment')
 def payment():

@@ -6,10 +6,13 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="." method="post">
+    <form action="/login/authorize" method="post">
         {{ form.hidden_tag() if form.hidden_tag }}
         {{ form.username }}
         {{ form.password }}
+        {{ form.redirect_uri }}
+        {{ form.account_linking_token }}
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>
