@@ -1,4 +1,4 @@
-from app import FACEBOOK_TOKEN, CASA_LINK
+﻿from app import FACEBOOK_TOKEN, CASA_LINK
 from app import json, page, requests
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
@@ -37,7 +37,7 @@ def start_payload_callback(payload, event):
 				"text":"Try the log in button!",
 				"buttons":[{
 					"type": "account_link",
-					"url": "https://www.example.com/authorize"
+					"url": "https://ebotmessenger.herokuapp.com/login/authorize"
 					}]
 				}
 			}

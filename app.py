@@ -63,7 +63,7 @@ def test_form():
 	form = ExampleForm()   
 	return render_template('test.html', form = form) 
 
-@app.route('/login')
+@app.route('/login/authorize')
 def login():
 	return render_template('login.html')
 
@@ -121,5 +121,5 @@ import fb.threading_setup
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))
-	app.debug = True
+	app.debug = False
 	app.run('0.0.0.0', port)
