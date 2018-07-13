@@ -55,13 +55,11 @@ def postLogin():
 			password = request.form.get('password')
 			redirectURI = request.form.get('redirectURI')
 			linkToken = request.form.get('linkToken')
-			print username
-			print password
-
-			# if username == "admin" and password == "admin":
-			# 	return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
-			# else:
-			# 	error = "username or password incorrect!"
+			
+			if username == "admin" and password == "admin":
+				return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
+			else:
+				error = "username or password incorrect!"
 	return render_template('login.html', error=error, redirect_uri=redirectURI, account_linking_token=linkToken)
 
 @app.route('/payment')
