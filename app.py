@@ -31,9 +31,6 @@ class LoginForm(FlaskForm):
 			'data-val':'true',
 			'data-val-required':'Input Required'})
 
-	redirect_uri = HiddenField()
-	account_linking_token = HiddenField()
-
 	submit_button = SubmitField("Login")
 
 @app.route('/login/authorize', methods=['GET', 'POST'])
@@ -48,19 +45,18 @@ def login():
 
 	redirect_uri = request.args.get('redirect_uri')
 	account_linking_token = request.args.get('account_linking_token')
-	print account_linking_token
-	form = LoginForm()
 	
+	form = LoginForm()
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			username = form.username.data
 			password = form.password.data
-			redirectURI = form.redirect_uri
-			
+			redirectURI = request.form.get('redirectURI')
+			linkToken = request.form.get('linkToken')
 			if username == "admin" and password == "admin":
-				return redirect(url_for('/{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex)))
+				return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
 
-	return render_template('login.html', form = form , redirect_uri=redirect_uri)
+	return render_template('login.html', form=form , redirect_uri=redirect_uri, account_linking_token=account_linking_token)
 
 @app.route('/payment')
 def payment():
@@ -93,20 +89,20 @@ def handle_message(event):
 def after_send(payload, response):
 	print "response:", response
 
-@app.errorhandler(Exception)
-def all_exception_handler(error):
-	message = [str(x) for x in error.args]
+#@app.errorhandler(Exception)
+#def all_exception_handler(error):
+#	message = [str(x) for x in error.args]
 
-	# if isinstance(error, HTTPException):
-	# 	code = error.code
+#	# if isinstance(error, HTTPException):
+#	# 	code = error.code
 
-	response = {
-		'error': {
-			'type': error.__class__.__name__,
-			'message': message
-		}
-	}   
-	return jsonify(response)
+#	response = {
+#		'error': {
+#			'type': error.__class__.__name__,
+#			'message': message
+#		}
+#	}   
+#	return jsonify(response)
 
 @errors.app_errorhandler(Exception)
 def handle_error(error):
