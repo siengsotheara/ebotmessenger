@@ -48,14 +48,14 @@ def getLogin():
 	
 	form = LoginForm()
 
-	return render_template('login.html', form=form , redirect_uri=redirect_uri, account_linking_token=account_linking_token)
+	return render_template('login.html', form=form, error=None, redirect_uri=redirect_uri, account_linking_token=account_linking_token)
 
 @app.route('/login/authorize', methods=['POST'])
 def postLogin():
 	form = LoginForm()
 	redirectURI = None
 	linkToken = None
-
+	error = None
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			username = form.username.data
@@ -65,7 +65,9 @@ def postLogin():
 
 			if username == "admin" and password == "admin":
 				return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
-	return render_template('login.html', form=form , redirect_uri=redirectURI, account_linking_token=linkToken)
+			else:
+				error = "username or password incorrect!"
+	return render_template('login.html', form=form, error=error, redirect_uri=redirectURI, account_linking_token=linkToken)
 
 @app.route('/payment')
 def payment():
