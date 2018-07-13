@@ -48,7 +48,7 @@ def getLogin():
 	
 	form = LoginForm()
 
-	return render_template('login.html', form=form, error=None, redirect_uri=redirect_uri, account_linking_token=account_linking_token)
+	return render_template('login.html', form=form, error='', redirect_uri=redirect_uri, account_linking_token=account_linking_token)
 
 @app.route('/login/authorize', methods=['POST'])
 def postLogin():
@@ -56,6 +56,7 @@ def postLogin():
 	redirectURI = None
 	linkToken = None
 	error = None
+
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			username = form.username.data

@@ -4,16 +4,50 @@
 <head>
     <meta charset="utf-8" />
     <title>Login</title>
+    <link rel="stylesheet" href="../static/styles/style.css"/>
+    <script src="../static/scripts/disable-submit.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 </head>
 <body>
-    <form action="/login/authorize" method="post">
-        {{ form.hidden_tag() if form.hidden_tag }}
-        {{ form.username }}
-        {{ form.password }}
-        {{ error }}
-        <input id="redirectURI" name="redirectURI" type="text" hidden="hidden" value="{{redirect_uri}}" />
-        <input id="linkToken" name="linkToken" type="text" hidden="hidden" value="{{account_linking_token}}" />
-        <button type="submit">Login</button>
-    </form>
+    <div class="main row">
+        <div class="column">
+            <div class="header">
+                <h2>KREDIT Login</h2>
+            </div>
+            <div class="subtitle">
+                <p>Demo username: admin and password: admin</p>
+            </div>
+            <form action="/login/authorize" method="post" class="column">
+                <div class="formFields">
+                    <fieldset id="csrf_token" hidden="hidden">
+                        {{ form.hidden_tag() if form.hidden_tag }}
+                    </fieldset>
+                    <fieldset id="usernameField">
+                        <div class="input">
+                            <label for="username">Username</label>{{ form.username }}
+                        </div>
+                        <div class="inputStatus"></div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="input">
+                            <label for="password">Password</label>{{ form.password }}
+                        </div>
+                        <div class="inputStatus"></div>
+                    </fieldset>
+                    
+                    
+                    <input id="redirectURI" name="redirectURI" type="text" hidden="hidden" value="{{redirect_uri}}" />
+                    <input id="linkToken" name="linkToken" type="text" hidden="hidden" value="{{account_linking_token}}" />
+                </div>
+                <div id="error"><p></p></div>
+                <button id="submit" type="submit" class="submitButton" disabled>
+                    <div id="submitInternal" class="row">
+                        <img id="spinner" src="../static/images/loading.svg" style="display:none" class="icon" />
+                        <span class="buttonText">Login</span>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
