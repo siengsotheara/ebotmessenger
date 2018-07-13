@@ -33,8 +33,8 @@ class LoginForm(FlaskForm):
 
 	submit_button = SubmitField("Login")
 
-@app.route('/login/authorize', methods=['GET', 'POST'])
-def login():
+@app.route('/login/authorize', methods=['GET'])
+def getLogin():
 	"""
 	Account Linking Token is never used in this demo, however it is
 	useful to know about this token in the context of account linking.
@@ -47,16 +47,25 @@ def login():
 	account_linking_token = request.args.get('account_linking_token')
 	
 	form = LoginForm()
+
+	return render_template('login.html', form=form , redirect_uri=redirect_uri, account_linking_token=account_linking_token)
+
+@app.route('/login/authorize', methods=['POST'])
+def postLogin():
+	form = LoginForm()
+	redirectURI = None
+	linkToken = None
+
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			username = form.username.data
 			password = form.password.data
 			redirectURI = request.form.get('redirectURI')
 			linkToken = request.form.get('linkToken')
+
 			if username == "admin" and password == "admin":
 				return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
-
-	return render_template('login.html', form=form , redirect_uri=redirect_uri, account_linking_token=account_linking_token)
+	return render_template('login.html', form=form , redirect_uri=redirectURI, account_linking_token=linkToken)
 
 @app.route('/payment')
 def payment():
