@@ -20,19 +20,6 @@ data = None
 
 app.config['SECRET_KEY'] = SECRET_KEY
 
-class LoginForm(FlaskForm):
-	username = TextField("Username", render_kw = {
-			'placeholder': 'Enter your username',
-			'data-val':'true',
-			'data-val-required':'Input Required'
-		})
-	password = PasswordField("Password", render_kw= {
-			'placeholder':'Enter your password',
-			'data-val':'true',
-			'data-val-required':'Input Required'})
-
-	submit_button = SubmitField("Login")
-
 @app.route('/login/authorize', methods=['GET'])
 def getLogin():
 	"""
@@ -46,29 +33,36 @@ def getLogin():
 	redirect_uri = request.args.get('redirect_uri')
 	account_linking_token = request.args.get('account_linking_token')
 	
-	form = LoginForm()
-
-	return render_template('login.html', form=form, error='', redirect_uri=redirect_uri, account_linking_token=account_linking_token)
+	return render_template('login.html', error='', redirect_uri=redirect_uri, account_linking_token=account_linking_token)
 
 @app.route('/login/authorize', methods=['POST'])
 def postLogin():
-	form = LoginForm()
+	"""
+	Account Linking Token is never used in this demo, however it is
+	useful to know about this token in the context of account linking.
+	It can be used in a query to the Graph API to get Facebook details
+	for a user. Read More at:
+	https://developers.facebook.com/docs/messenger-platform/account-linking	
+	"""
+
 	redirectURI = None
 	linkToken = None
 	error = None
 
 	if request.method == 'POST':
-		if form.validate_on_submit():
-			username = form.username.data
-			password = form.password.data
+		if request.form['submit'] == "btn_login":
+			username = request.form.get('username')
+			password = request.form.get('password')
 			redirectURI = request.form.get('redirectURI')
 			linkToken = request.form.get('linkToken')
+			print username
+			print password
 
-			if username == "admin" and password == "admin":
-				return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
-			else:
-				error = "username or password incorrect!"
-	return render_template('login.html', form=form, error=error, redirect_uri=redirectURI, account_linking_token=linkToken)
+			# if username == "admin" and password == "admin":
+			# 	return redirect('{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex))
+			# else:
+			# 	error = "username or password incorrect!"
+	return render_template('login.html', error=error, redirect_uri=redirectURI, account_linking_token=linkToken)
 
 @app.route('/payment')
 def payment():

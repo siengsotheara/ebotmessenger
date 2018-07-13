@@ -1,5 +1,5 @@
 ﻿from app import FACEBOOK_TOKEN, CASA_LINK
-from app import json, page, requests
+from app import json, page, requests, data, QuickReply
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
