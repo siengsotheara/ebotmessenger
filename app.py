@@ -43,19 +43,19 @@ def login():
 	useful to know about this token in the context of account linking.
 	It can be used in a query to the Graph API to get Facebook details
 	for a user. Read More at:
-	https://developers.facebook.com/docs/messenger-platform/account-linking
+	https://developers.facebook.com/docs/messenger-platform/account-linking	
 	"""
-	
 
 	redirect_uri = request.args.get('redirect_uri')
 	account_linking_token = request.args.get('account_linking_token')
+	print account_linking_token
 	form = LoginForm()
-	form.redirect_uri = HiddenField(render_kw={'value':redirect_uri})
+	
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			username = form.username.data
 			password = form.password.data
-			redirectURI= form.redirect_uri
+			redirectURI = form.redirect_uri
 			
 			if username == "admin" and password == "admin":
 				return redirect(url_for('/{0}&authorization_code={1}'.format(redirectURI, uuid.uuid1().hex)))
@@ -97,8 +97,8 @@ def after_send(payload, response):
 def all_exception_handler(error):
 	message = [str(x) for x in error.args]
 
-	if isinstance(error, HTTPException):
-		code = error.code
+	# if isinstance(error, HTTPException):
+	# 	code = error.code
 
 	response = {
 		'error': {
@@ -112,7 +112,6 @@ def all_exception_handler(error):
 def handle_error(error):
 	message = [str(x) for x in error.args]
 	status_code = error.status_code
-	success = False
 	response = {
 		'error': {
 			'type': error.__class__.__name__,
