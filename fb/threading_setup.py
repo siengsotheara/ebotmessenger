@@ -22,8 +22,8 @@ page.show_starting_button("START_PAYLOAD")
 def start_payload_callback(payload, event):
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
-	page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
-	page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
+	#page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
+	#page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
 	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
 	d = json.dumps({
 		"recipient":{
