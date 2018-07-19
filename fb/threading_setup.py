@@ -1,5 +1,5 @@
 ﻿from app import FACEBOOK_TOKEN, CASA_LINK
-from app import json, page, requests, data, QuickReply, NotificationType, FacebookUtil, UserProfile
+from app import json, app, page, requests, data, QuickReply, NotificationType, FacebookUtil, UserProfile
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
@@ -27,13 +27,12 @@ page.show_starting_button("START_PAYLOAD")
 
 @page.callback(['START_PAYLOAD'])
 def start_payload_callback(payload, event):
-	user_profile = FacebookUtil._user_profile(event.sender_id, token)
-	print user_profile
-	#data = UserProfile(json.dumps(user_profile))
-	#print data.first_name
-	#print data.last_name
-
 	sender_id = event.sender_id
+	fbutil = FacebookUtil() 
+	profile = UserProfile(fbutil._user_profile(event.sender_id, FACEBOOK_TOKEN))
+	print profile.first_name
+	print profile.last_name
+	
 	page.typing_on(sender_id)
 	#page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
 	#page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
