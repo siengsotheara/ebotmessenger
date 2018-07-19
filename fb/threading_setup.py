@@ -168,7 +168,7 @@ def click_loan_action(payload, event):
 				{'title': 'Solar Loan', 'payload':'SAVING_ACTION'},
 				{'title': 'Education Loan', 'payload':'SAVING_ACTION'},
 				{'title': 'Community Bank Loan', 'payload':'SAVING_ACTION'},
-				{'title': 'Loan Payment Service Via Truemoney Agent'}]
+				{'title': 'Loan Payment Service Via Truemoney Agent', 'payload':'SAVING_ACTION'}]
 	page.send(event.sender_id, 
 		  "What kind of product do you prefer?",
 		  quick_replies=quick_replies,
