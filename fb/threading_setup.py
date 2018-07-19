@@ -55,39 +55,49 @@ persistent_menu_data = json.dumps(
 	  "composer_input_disabled": False,
 	  "call_to_actions":[
 			{
-				"title":"My Account",
+				"title":"Financial",
 				"type":"nested",
 				"call_to_actions":[					
 					{
-						"title":"Top Up",
+						"title":"Balance Enquiry",
 						"type":"postback",    
-						"payload":"TOPUP_PAYLOAD"
+						"payload":"BALANCE_ENQUIRY_PAYLOAD"
 					},
 					{
-						"title":"ATM Location",
+						"title":"Mini Statement",
 						"type":"postback",
-						"payload":"ATM_PAYLOAD"
+						"payload":"MINI_STATEMENT_PAYLOAD"
+					},
+					{
+						"title":"Loan Outstanding",
+						"type":"postback",
+						"payload":"LOAN_OUTSTANDING_PAYLOAD"
+					},
+					{
+						"title":"Payment Schedule",
+						"type":"postback",
+						"payload":"PAYMENT_SCHEDULE_PAYLOAD"    
 					}
 				]
 			},
 			{
-				"title":"My Profile",
+				"title":"Non-Financial",
 				"type":"nested",
 				"call_to_actions":[
 					{
-						"title":"Take Photo AR",
+						"title":"Product",
 						"type":"postback",    
-						"payload":"CHECK_BALANCE_PAYLOAD"
+						"payload":"PRODUCT_PAYLOAD"
 					},
 					{	
-						"title":"Menu2",
+						"title":"Exchange Rate",
 						"type":"postback",    
-						"payload":"PAYBILL_PAYLOAD"
+						"payload":"EXCHANGE_RATE_PAYLOAD"
 					},
 					{
-						"title":"Menu3",
+						"title":"Branch and ATM location",
 						"type":"postback",    
-						"payload":"PAYBILL_PAYLOAD"
+						"payload":"BRANCH_ATM_PAYLOAD"
 					}
 				]
 			},
