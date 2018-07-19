@@ -16,6 +16,7 @@ class FacebookUtil(object):
         pass
 
     def _user_profile(self, id, access_token):
+        print "Process.. user profile"
         _uri = self._uri + id + "?fields=first_name,last_name,gender,locale,timezone,profile_pic&access_token=" + access_token
         return requests.get(url=_uri).json()
 

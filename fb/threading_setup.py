@@ -46,7 +46,7 @@ def start_payload_callback(payload, event):
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"{{user_full_name}}",
+				"text":profile.first_name + " " + profile.last_name,
 				"buttons":[
 					{
 						"type": "account_link",
