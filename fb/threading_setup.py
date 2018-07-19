@@ -138,18 +138,7 @@ def click_atm_payload(payload, event):
 @page.callback(['PRODUCT_PAYLOAD'])
 def click_top_up_payload(payload, event):
 	page.send(event.sender_id, 'PRODUCT_PAYLOAD')
-	quick_replies = [
-		QuickReply(title="Action", payload="PICK_ACTION"),
-		QuickReply(title="Comedy", payload="PICK_COMEDY")
-	]
-
-@page.callback(['PAYBILL_PAYLOAD'])
-def click_persistent_menu_find_pitch(payload, event):
-	sender_id = event.sender_id
-	page.typing_on(sender_id)
-	page.send(sender_id, "you clicked %s menu" % payload)
 	
-
 	quick_replies = [
 		QuickReply(title="Loan", payload="LOAN_ACTION"),
 		QuickReply(title="Saving", payload="SAVING_ACTION")
