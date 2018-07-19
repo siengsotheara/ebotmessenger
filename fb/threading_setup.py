@@ -135,9 +135,13 @@ def click_atm_payload(payload, event):
 	requests.post(url=url_messenger_message, params=params, headers=headers, data=location_request)
 	print "data: ",data
 
-@page.callback(['TOP_UP_PAYLOAD'])
+@page.callback(['PRODUCT_PAYLOAD'])
 def click_top_up_payload(payload, event):
-	page.send(event.sender_id, 'click top up')
+	page.send(event.sender_id, 'PRODUCT_PAYLOAD')
+	quick_replies = [
+		QuickReply(title="Action", payload="PICK_ACTION"),
+		QuickReply(title="Comedy", payload="PICK_COMEDY")
+	]
 
 @page.callback(['PAYBILL_PAYLOAD'])
 def click_persistent_menu_find_pitch(payload, event):
@@ -147,25 +151,23 @@ def click_persistent_menu_find_pitch(payload, event):
 	
 
 	quick_replies = [
-		QuickReply(title="Action", payload="PICK_ACTION"),
-		QuickReply(title="Comedy", payload="PICK_COMEDY")
+		QuickReply(title="Loan", payload="LOAN_ACTION"),
+		QuickReply(title="Saving", payload="SAVING_ACTION")
 	]
 
 	page.send(sender_id, 
-		  "What's your favorite movie genre?",
+		  "What kind of product do you prefer?",
 		  quick_replies=quick_replies,
 		  metadata="DEVELOPER_DEFINED_METADATA")
 	page.typing_off(sender_id)
 	print("you clicked %s menu" % payload)
 
-@page.callback(['NEWS'])
-def click_persistent_menu_reminder(payload, event):
-	sender_id = event.sender_id
-	page.send(sender_id, "you clicked %s menu" % payload)
-	print("you clicked %s menu" % payload)
+@page.callback(['LOAN_ACTION'])
+def click_loan_action(payload, event):
+	page.send(event.sender_id, "loan action")
+	print 'test'
 
-@page.callback(['CONTACT_INFO_PAYLOAD'])
-def click_persistent_menu_help(payload, event):
-	sender_id = event.sender_id
-	page.send(sender_id, "you clicked %s menu" % payload)
-	print("you clicked %s menu" % payload)
+@page.callback(['SAVING_ACTION'])
+def click_loan_action(payload, event):
+	page.send(event.sender_id, "saving action")
+	print 'test'
