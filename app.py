@@ -83,7 +83,7 @@ def validate():
 def webhook():
 	data = request.get_json()
 	print "data: ",data
-	page.handle_webhook(request.get_data(as_text=True))
+	page.handle_webhook(request.get_data(as_text=True)) 
 	return "ok", 200
 
 @page.handle_message
@@ -92,7 +92,7 @@ def handle_message(event):
 
 @page.after_send
 def after_send(payload, response):
-	print "response:", response
+	print "response:", response.json()
 
 #@app.errorhandler(Exception)
 #def all_exception_handler(error):

@@ -34,9 +34,7 @@ def start_payload_callback(payload, event):
 	print profile.last_name
 	
 	page.typing_on(sender_id)
-	#page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
-	#page.send(sender_id, u"Welcome to KREDIT MFI Plc. With this chatbot you can do whatever you want.")
-	page.send(sender_id, u"And we are really happy to see your feedback. Thanks! :)")
+	page.send(sender_id, profile.last_name + ", welcome! Nice to see you here :). I'm PhillipBot. You can ask me with quick reply pop up below and you can either choose option in right menu.")
 	d = json.dumps({
 		"recipient":{
 			"id":sender_id
@@ -46,7 +44,7 @@ def start_payload_callback(payload, event):
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":profile.first_name + " " + profile.last_name,
+				"text":"Are you read to do this? You'll need to log in your customer's account so I can help you do more things.",
 				"buttons":[
 					{
 						"type": "account_link",
