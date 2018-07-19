@@ -13,7 +13,7 @@ headers = {
 	"Content-Type": "application/json"
 }
 
-page.greeting('Hello {{user_full_name}} Welcome to FB Messenger Chatbot')
+page.greeting("Hello {{user_full_name}} I'm PhillipBot. Thank for getting in touch with us on Messenger. Please send us any questions you may have")
 
 
 page.show_starting_button("START_PAYLOAD")
@@ -136,7 +136,7 @@ def click_atm_payload(payload, event):
 	print "data: ",data
 
 @page.callback(['PRODUCT_PAYLOAD'])
-def click_top_up_payload(payload, event):
+def click_product_payload(payload, event):
 	page.typing_on(event.sender_id)
 	page.send(event.sender_id, 'PRODUCT_PAYLOAD')
 	
