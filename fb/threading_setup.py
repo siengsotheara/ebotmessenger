@@ -28,9 +28,10 @@ page.show_starting_button("START_PAYLOAD")
 @page.callback(['START_PAYLOAD'])
 def start_payload_callback(payload, event):
 	user_profile = FacebookUtil._user_profile(event.sender_id, token)
-	data = UserProfile(json.dumps(user_profile))
-	print data.first_name
-	print data.last_name
+	print user_profile
+	#data = UserProfile(json.dumps(user_profile))
+	#print data.first_name
+	#print data.last_name
 
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
