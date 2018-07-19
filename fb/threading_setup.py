@@ -1,5 +1,5 @@
 ﻿from app import FACEBOOK_TOKEN, CASA_LINK
-from app import json, page, requests, data, QuickReply, NotificationType
+from app import json, page, requests, data, QuickReply, NotificationType, FacebookUtil, UserProfile
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
@@ -27,6 +27,11 @@ page.show_starting_button("START_PAYLOAD")
 
 @page.callback(['START_PAYLOAD'])
 def start_payload_callback(payload, event):
+	user_profile = FacebookUtil._user_profile(event.sender_id, token)
+	data = UserProfile(json.dumps(user_profile))
+	print data.first_name
+	print data.last_name
+
 	sender_id = event.sender_id
 	page.typing_on(sender_id)
 	#page.send(sender_id, u"Welcome! Nice to see you here. I'm KREDIT Chatbot and I will help you response quickly as an option menu below.")
@@ -41,12 +46,23 @@ def start_payload_callback(payload, event):
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"Try the log in button!",
-				"buttons":[{
-					"type": "account_link",
-					"url": "https://ebotmessenger.herokuapp.com/login/authorize"
-					}]
-				}
+				"text":"{{user_full_name}}",
+				"buttons":[
+					{
+						"type": "account_link",
+						"url": "https://ebotmessenger.herokuapp.com/login/authorize"
+					},
+					{
+						"title": "Term of use",
+						"type": "web_url",
+						"url": "www.google.com"
+					},
+					{
+						"title":"Help",
+						"type":"postback",
+						"payload":"HELP_PAYLOAD"
+					}
+				]}
 			}
 		}
 	})
@@ -118,6 +134,10 @@ persistent_menu_data = json.dumps(
   ]
 })
 requests.post(url=url_messenger_profile, params=params, headers=headers, data=persistent_menu_data)
+
+@page.callback(['HELP_PAYLOAD'])
+def click_help_payload(payload, event):
+	page.send(event.sender_id, "clicked help")
 
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
 def click_check_balance_payload(payload, event):
