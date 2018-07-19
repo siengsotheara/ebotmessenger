@@ -138,7 +138,6 @@ def click_atm_payload(payload, event):
 @page.callback(['PRODUCT_PAYLOAD'])
 def click_product_payload(payload, event):
 	page.typing_on(event.sender_id)
-	page.send(event.sender_id, 'PRODUCT_PAYLOAD')
 	
 	quick_replies = [{'title': 'Loan', 'payload': 'LOAN_ACTION'},
 				{'title': 'Saving', 'payload': 'SAVING_ACTION'}]
@@ -152,7 +151,8 @@ def click_product_payload(payload, event):
 
 @page.callback(['LOAN_ACTION'])
 def click_loan_action(payload, event):
-	page.send(event.sender_id, "loan action")
+	quick_replies = [{'title': 'Loan', 'payload': 'LOAN_ACTION'},
+				{'title': 'Saving', 'payload': 'SAVING_ACTION'}]
 	print 'test'
 
 @page.callback(['SAVING_ACTION'])
