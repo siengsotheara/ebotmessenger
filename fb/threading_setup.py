@@ -1,5 +1,5 @@
 ﻿from app import FACEBOOK_TOKEN, CASA_LINK
-from app import json, page, requests, data, QuickReply
+from app import json, page, requests, data, QuickReply, NotificationType
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
@@ -145,7 +145,7 @@ def click_product_payload(payload, event):
 	page.send(event.sender_id, 
 		  "What kind of product do you prefer?",
 		  quick_replies=quick_replies,
-		  metadata="DEVELOPER_DEFINED_METADATA")
+		  metadata="DEVELOPER_DEFINED_METADATA", notification_type=NotificationType.REGULAR)
 	page.typing_off(event.sender_id)
 	print("you clicked %s menu" % payload)
 
