@@ -123,9 +123,9 @@ persistent_menu_data = json.dumps(
 				]
 			},
 			{
-				"title":"Help",
+				"title":"Contact Us",
 				"type":"postback",
-				"payload":"Payload"
+				"payload":"CONTACT_US_PAYLOAD"
 			}
 	   ]
 	}
@@ -137,12 +137,16 @@ requests.post(url=url_messenger_profile, params=params, headers=headers, data=pe
 def click_help_payload(payload, event):
 	page.send(event.sender_id, "clicked help")
 
+@page.callback(['CONTACT_US_PAYLOAD'])
+def click_help_payload(payload, event):
+	page.send(event.sender_id, "contact us")
+
 @page.callback(['CHECK_BALANCE_PAYLOAD'])
 def click_check_balance_payload(payload, event):
 	page.send(event.sender_id, 'click check balance')
 
-@page.callback(['ATM_PAYLOAD'])
-def click_atm_payload(payload, event):
+@page.callback(['BRANCH_ATM_PAYLOAD'])
+def click_branch_atm_payload(payload, event):
 	print 'location access'
 	print "id ", event.sender_id
 	location_request = json.dumps({
@@ -150,7 +154,7 @@ def click_atm_payload(payload, event):
 			"id": event.sender_id
 		},
 		"message":{
-			"text": "Please send me your current location now. I will help find the nearest ATM for you.",
+			"text": "Please send me your current location now. I will help find the nearest Branch and ATM for you.",
 			"quick_replies":[{
 				"content_type":"location"
 			}]	
