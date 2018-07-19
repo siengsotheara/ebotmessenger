@@ -137,14 +137,13 @@ def click_atm_payload(payload, event):
 
 @page.callback(['PRODUCT_PAYLOAD'])
 def click_top_up_payload(payload, event):
+	page.typing_on(event.sender_id)
 	page.send(event.sender_id, 'PRODUCT_PAYLOAD')
 	
-	quick_replies = [
-		QuickReply(title="Loan", payload="LOAN_ACTION"),
-		QuickReply(title="Saving", payload="SAVING_ACTION")
-	]
+	quick_replies = [{'title': 'Loan', 'payload': 'LOAN_ACTION'},
+				{'title': 'Saving', 'payload': 'SAVING_ACTION'}]
 
-	page.send(sender_id, 
+	page.send(event.sender_id, 
 		  "What kind of product do you prefer?",
 		  quick_replies=quick_replies,
 		  metadata="DEVELOPER_DEFINED_METADATA")
