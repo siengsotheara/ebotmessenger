@@ -180,7 +180,8 @@ def click_product_payload(payload, event):
 @page.callback(['LOAN_ACTION'])
 def click_loan_action(payload, event):
 	page.typing_on(event.sender_id)
-	quick_replies = [{'title': 'Business Loan', 'payload': 'LOAN_ACTION'},
+	quick_replies = [
+				{'title': 'Business Loan', 'payload': 'LOAN_ACTION'},
 				{'title': 'Consumption Loan', 'payload': 'SAVING_ACTION'},
 				{'title': 'Home Improvment Loan', 'payload':'SAVING_ACTION'},
 				{'title': 'Agriculture Loan', 'payload':'SAVING_ACTION'},
