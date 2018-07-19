@@ -12,8 +12,15 @@ params = {
 headers = {
 	"Content-Type": "application/json"
 }
-
-page.greeting("Hello {{user_full_name}} I'm PhillipBot. Thank for getting in touch with us on Messenger. Please send us any questions you may have")
+greeting_data = json.dumps({
+	"greeting": [
+			{
+				"locale":"default",
+				"text": "Hello {{user_full_name}} I'm PhillipBot. Thank for getting in touch with us on Messenger. Please send us any questions you may have"
+			}
+		]
+})
+requests.post(url=url_messenger_profile, params=params, headers=headers,data=greeting_data)
 
 
 page.show_starting_button("START_PAYLOAD")
