@@ -154,7 +154,6 @@ def click_product_payload(payload, event):
 		  quick_replies=quick_replies,
 		  metadata="DEVELOPER_DEFINED_METADATA", notification_type=NotificationType.REGULAR)
 	page.typing_off(event.sender_id)
-	print("you clicked %s menu" % payload)
 
 @page.callback(['LOAN_ACTION'])
 def click_loan_action(payload, event):
@@ -176,8 +175,6 @@ def click_loan_action(payload, event):
 		  metadata="DEVELOPER_DEFINED_METADATA", notification_type=NotificationType.REGULAR)
 
 	page.typing_off(event.sender_id)
-	page.typing_off(event.sender_id)
-
 
 @page.callback(['SAVING_ACTION'])
 def click_loan_action(payload, event):
