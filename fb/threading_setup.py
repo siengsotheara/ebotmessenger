@@ -158,9 +158,26 @@ def click_product_payload(payload, event):
 
 @page.callback(['LOAN_ACTION'])
 def click_loan_action(payload, event):
-	quick_replies = [{'title': 'Loan', 'payload': 'LOAN_ACTION'},
-				{'title': 'Saving', 'payload': 'SAVING_ACTION'}]
-	print 'test'
+	page.typing_on(event.sender_id)
+	quick_replies = [{'title': 'Business Loan', 'payload': 'LOAN_ACTION'},
+				{'title': 'Consumption Loan', 'payload': 'SAVING_ACTION'},
+				{'title': 'Home Improvment Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Agriculture Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'SME Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Working Captital Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Personal Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Solar Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Education Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Community Bank Loan', 'payload':'SAVING_ACTION'},
+				{'title': 'Loan Payment Service Via Truemoney Agent'}]
+	page.send(event.sender_id, 
+		  "What kind of product do you prefer?",
+		  quick_replies=quick_replies,
+		  metadata="DEVELOPER_DEFINED_METADATA", notification_type=NotificationType.REGULAR)
+
+	page.typing_off(event.sender_id)
+	page.typing_off(event.sender_id)
+
 
 @page.callback(['SAVING_ACTION'])
 def click_loan_action(payload, event):
