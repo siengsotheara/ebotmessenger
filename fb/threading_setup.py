@@ -147,7 +147,7 @@ def click_product_payload(payload, event):
 		  "What kind of product do you prefer?",
 		  quick_replies=quick_replies,
 		  metadata="DEVELOPER_DEFINED_METADATA")
-	page.typing_off(sender_id)
+	page.typing_off(event.sender_id)
 	print("you clicked %s menu" % payload)
 
 @page.callback(['LOAN_ACTION'])
