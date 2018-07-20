@@ -4,11 +4,11 @@ import os
 import json
 import urlparse
 import uuid
+
 from werkzeug.exceptions import HTTPException
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
 from fbmq import Page, Template, Template, QuickReply, NotificationType
 from config import FACEBOOK_TOKEN,VERIFY_TOKEN, SECRET_KEY,CASA_LINK	
-from common.util import FacebookUtil, UserProfile
 
 from flask_wtf import FlaskForm
 from wtforms import TextField, HiddenField, ValidationError, RadioField,BooleanField, SubmitField, IntegerField, FormField, PasswordField, validators
@@ -122,7 +122,7 @@ def handle_error(error):
 
 	return jsonify(response), status_code
 
-import fb.threading_setup
+import threading_setup
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))

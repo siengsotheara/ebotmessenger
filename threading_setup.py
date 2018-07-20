@@ -1,5 +1,5 @@
 ﻿from app import FACEBOOK_TOKEN, CASA_LINK
-from app import json, app, page, requests, data, QuickReply, NotificationType, FacebookUtil, UserProfile
+from app import json, app, page, requests, data, QuickReply, NotificationType
 
 url_messenger_profile = 'https://graph.facebook.com/v2.6/me/messenger_profile'
 url_messenger_message = 'https://graph.facebook.com/v2.6/me/messages'
@@ -28,10 +28,6 @@ page.show_starting_button("START_PAYLOAD")
 @page.callback(['START_PAYLOAD'])
 def start_payload_callback(payload, event):
 	sender_id = event.sender_id
-	fbutil = FacebookUtil() 
-	profile = UserProfile(fbutil._user_profile(event.sender_id, FACEBOOK_TOKEN))
-	print profile.first_name
-	print profile.last_name
 	
 	page.typing_on(sender_id)
 	page.send(sender_id, profile.last_name + ", welcome! Nice to see you here :). I'm PhillipBot. You can ask me with quick reply pop up below and you can either choose option in right menu.")
