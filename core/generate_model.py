@@ -1,4 +1,4 @@
-print 'Setting up starting directory'
+﻿print 'Setting up starting directory'
 from os import environ
 import sys
 import os.path
@@ -12,11 +12,11 @@ sys.path.insert(0,target_dir)
 
 # drop and create all model -------------------------------------
 print '\ndrop and create all model...'
-from core.models import *
-from core.databases import *
+#from core.models import *
+#from core.databases import engine
 
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine) 
+#Base.metadata.drop_all(engine)
+#Base.metadata.create_all(engine) 
 
 
 
