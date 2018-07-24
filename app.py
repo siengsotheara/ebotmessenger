@@ -65,6 +65,7 @@ def postLogin():
 
 @app.route('/payment')
 def payment():
+	print 'test'
 	return render_template('payment.html')
 
 
