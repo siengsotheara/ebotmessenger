@@ -24,7 +24,6 @@ requests==2.19.1
 singledispatch==3.4.0.3
 six==1.11.0
 SQLAlchemy==1.2.9
-UNKNOWN==0.0.0
 urllib3==1.23
 virtualenv==16.0.0
 Werkzeug==0.14.1
