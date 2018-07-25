@@ -1,4 +1,9 @@
-from sqlalchemy import Column, Integer, BigInteger, String, Sequence, Numeric, DateTime,  Date, Boolean, Binary, Text, Unicode, UnicodeText, Time
+﻿from sqlalchemy import Column, Sequence
+from sqlalchemy.dialects.oracle import \
+            BFILE, BLOB, CHAR, CLOB, DATE, \
+            DOUBLE_PRECISION, FLOAT, INTERVAL, LONG, NCLOB, \
+            NUMBER, NVARCHAR, NVARCHAR2, RAW, TIMESTAMP, VARCHAR, \
+            VARCHAR2
 from sqlalchemy import ForeignKey
 from sqlalchemy import event, DDL, func
 from sqlalchemy.orm import relationship
@@ -19,40 +24,41 @@ class TrackMixin(object):
     """The TrackMixin Tables is wholed the default tracking columns to tables inherit from this class Model"""
     @declared_attr
     def create_date(cls):
-        return Column(DateTime, default=datetime.utcnow, server_default=func.now())
+        return Column(DATE, name='CREATE_DATE', default=datetime.today)
 
     @declared_attr
     def create_by(cls):
-        return Column(String(50), default=u'Dummy', server_default='Dummy')
+        return Column(VARCHAR2(255), name='CREATE_BY', default='Dummy')
 
     @declared_attr
     def update_date(cls):
-        return Column(DateTime, onupdate=datetime.utcnow)
+        return Column(DATE, name='UPDATE_DATE')
 
     @declared_attr
     def update_by(cls):
-        return Column(String(50), onupdate=u'Dummy')
+        return Column(VARCHAR2(255), name='UPDATE_BY')
+
+    @declared_attr
+    def delete_date(cls):
+        return Column(DATE, name='DELETE_DATE')
+
+    @declared_attr
+    def delete_by(cls):
+        return Column(VARCHAR2(255), name='DELETE_BY')
 
     @declared_attr
     def is_active(cls):
-        return Column(Boolean, default=True, server_default='t')
-
-#class Atm(Base, TrackMixin):
-#    __tablename__ = 'atm'
-#    id = Column(Integer, primary_key=True)
-#    x = Column(float)
-#    y = Column(float)
-
-#class User(Base, TrackMixin):
-#    __tablename__ = 'user'
-#    id = Column(Integer, primary_key=True)
-#    username = Column(String(50), unique=True, index=True, nullable=False)
-
-#    pitches = relationship('Pitch', primaryjoin='foreign(PitchMergeDetail.pitch_id) == remote(Pitch.id)')
+        return Column(VARCHAR2(1), name='IS_ACTIVE', nullable=False)
 
 
 class BroadcastMessage(Base, TrackMixin):
-    __tablename__ = 'TBL_BROADCAST_MESSAGE'
-    id = Column(Numeric, name='ID',primary_key=True)
-    message_creative_id = Column(Integer, name='MESSAGE_CREATIVE_ID')
+    __tablename__ = 'TBL_FACEBOOK_BROADCAST_MSG'
+    id = Column(NUMBER, Sequence('TBL_FACEBOOK_BROADCAST_MSG_SEQ'), primary_key=True, name='ID')
+    message_creative_id = Column(NUMBER, name='MESSAGE_CREATIVE_ID')
+
+class Attachment(Base, TrackMixin):
+    __tablename__ = 'TBL_FACEBOOK_ATTACHMENT'
+    id = Column(NUMBER, Sequence('TBL_FACEBOOK_ATTACHMENT_SEQ'), primary_key=True, name='ID')
+    attachment_id = Column(NUMBER, name='ATTACHMENT_ID')
+
 

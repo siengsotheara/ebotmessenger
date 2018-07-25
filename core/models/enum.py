@@ -1,4 +1,4 @@
-class Enum:
+﻿class Enum:
     __val__ = 0
 
     @classmethod
@@ -7,9 +7,8 @@ class Enum:
         return members 
         
 
-class PitchStatus(Enum):
+class Status(Enum):
     __val__     = 1000
-    open        = 'O'
-    pending     = 'P' 
-    close       = 'C'
-    delete      = 'D'
+    Y        = 'Y'
+    N        = 'N' 
+   
