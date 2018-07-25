@@ -1,4 +1,4 @@
-from core.logics.base import *
+﻿from core.logics.base import *
 from core.models import BroadcastMessage
 from sqlalchemy import subquery
 

@@ -1,0 +1,38 @@
+﻿{% macro render_supplier_picker(field, value='') -%}
+<div class="w-95">
+    {{ field.label }}
+    <input id="{{ field.id }}-display" name="{{ field.id }}-display" type="text" value="{{ value }}" />
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#{{ field.id }}-display').autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: "{{ url_for('admin.SupplierView:suggestions', search='') }}",
+                    type: "GET",
+                    dataType: "json",
+                    data: {
+                        term: request.term,
+                        maxResults: 10
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        data.map(function (e) { e.label = e.name });
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#{{ field.id }}").val(ui.item.id).change();
+            }
+        }).data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a><span>" + item.name + "</span></a>")
+                    .appendTo(ul);
+        };
+    });
+</script>
+{%- endmacro %}

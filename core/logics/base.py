@@ -47,7 +47,7 @@ class LogicBase:
     def _count(self):
         return self._actives().count()
 
-    def _add(self, obj):
+    def _insert(self, obj):
         if hasattr(obj, 'is_active'):
             obj.is_active=Status.Y
 
@@ -57,11 +57,19 @@ class LogicBase:
     def _update(self, obj):
         if hasattr(obj, 'update_date'):
             obj.update_date=datetime.date.today()
+        if hasattr(obj, 'update_by'):
+            obj.update_by = 'Default Update'
+
         db.commit()
 
     def _delete(self, obj):
+        if hasattr(obj, 'delete_by'):
+            obj.delete_by = 'Default Delete'
+        if hasattr(obj, 'delete_date'):
+            obj.delete_date = datetime.date.today()
         if hasattr(obj, 'is_active'):
             obj.is_active=Status.N
         else:
             db.remove(obj)
+
         db.commit()

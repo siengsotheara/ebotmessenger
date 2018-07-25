@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="wrapper">
+    <header class="header">
+        <div class="logo">
+            <i class="icon"></i>
+            <span>E-Water</span>
+            <small>survey system</small>
+        </div>
+        <nav class="navigation">
+            <ul class="navigation-menu">
+                <li class="dropbtn">
+                    <small>{{ _('LANGUAGE') }}</small>
+                    <span>{{ language }}</span>
+                    <div id="dropdown_language" class="dropdown">
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ url_for('admin.HomeView:change_language', code='km') }}" data-ajax="false">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span>{{ _('Khmer') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('admin.HomeView:change_language', code='en_GB') }}" data-ajax="false">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span>{{ _('English') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropbtn">
+                    <small>{{ _('USERNAME') }}</small>
+                    <span>{{ username }}</span>
+                    <div id="dropdown_username" class="dropdown">
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a>
+                                    <i class="fa fa-user"></i>
+                                    <span>{{ _('My Profile') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('admin.UserView:change_password', id=user_id) }}">
+                                    <i class="fa fa-key"></i>
+                                    <span>{{ _('Change Password') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('admin.SecurityView:logout') }}" data-ajax="false">
+                                    <i class="fa fa-sign-out"></i>
+                                    <span>{{ _('Logout') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <section class="section">
+        {% include "sidebar.html" ignore missing %}
+        <article class="content" style="overflow: auto;"></article>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{ url_for('admin.HomeView:dashboard') }}",
+            data: "",
+            type: 'GET',
+            success: function (resp) {
+                $(".content").html(resp);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+
+        $("ul.navigation-menu > li").click(function () {
+            $(".dropdown").not($(".dropdown", this)).hide();
+            $(".dropdown", this).toggle();
+        });
+    });
+</script>
+{% endblock %}

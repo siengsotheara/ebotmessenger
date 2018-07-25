@@ -1,0 +1,14 @@
+﻿{{ table.render_rows() }}
+
+{% if pagging.limit==0 or pagging.limit < pagging.count %}
+<tr>
+    <td colspan="100">
+        {% if pagging.remain %}
+        <a href="#" class="pagging btn btn-default btn-xs" data-offset="-1">{{ _('Show all') }} {{ pagging.count }}</a>
+        {% endif %}
+        {% if pagging.limit==0 %}
+        <a href="#" class="pagging btn btn-default btn-xs" data-offset="0">{{ _('Show less') }}</a>
+        {% endif%}
+    </td>
+</tr>
+{% endif %}

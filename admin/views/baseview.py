@@ -4,8 +4,8 @@ from flask_classy import FlaskView, route
 
 from flask_wtf import FlaskForm, Form
 from wtforms import TextField, PasswordField, HiddenField, validators
+from admin.views import admin
 
-from kService2.rest.blueprint import rest_blueprint
 from admin.auth import requires_auth
 
 

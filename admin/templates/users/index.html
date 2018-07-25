@@ -1,0 +1,32 @@
+﻿{% from "_macros/wtforms.html" import render_field, render_filter_form, render_filter_modal_form %}
+
+<header class="content-header">
+    {{ render_filter_form(form=form, action_url=url_for('admin.UserView:filter'), ajax_update='#filter-result', class_='search')}}
+    <div class="float-right">
+        <button id="searchBtn" class="filter">{{ _('Search') }}</button>
+        <a href="{{ url_for('admin.UserView:add') }}" class="button add">{{ _('Add') }}</a>
+    </div>
+</header>
+{{ render_filter_modal_form(form=form, action_url=url_for('admin.UserView:filter'), ajax_update='#filter-result', modal_header= _('Search'), return_text= _('Back'), action_text=_('Search'))}}
+<section class="content-section">
+    <table>
+        <thead>
+            {{ table.render_header() }}
+        </thead>
+        <tbody id="filter-result"></tbody>
+    </table>
+</section>
+<script src="{{ url_for('admin.static', filename='scripts/jquery.modal.js') }}"></script>
+<script language="javascript">
+    $(document).ready(function () {
+        $(".content-header form").submit();
+
+        $(".content-header #search").keypress(function (e) {
+            var key = e.which;
+            if (key == 13) {
+                $(".content-header form").submit();
+                return false;
+            }
+        });
+    });
+</script>

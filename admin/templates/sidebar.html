@@ -1,0 +1,40 @@
+<aside class="sidebar">
+    <ul class="sidebar-menu">
+        <li>
+            <a href="{{ url_for('admin.HomeView:dashboard') }}" class="active">
+                <i class="fa fa-tachometer"></i>
+                <span>{{ _('Dashboard') }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('admin.SurveyView:index') }}">
+                <i class="fa fa-list-alt"></i>
+                <span>{{ _('Surveys') }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('admin.SupplierView:index') }}">
+                <i class="fa fa-users"></i>
+                <span>{{ _('Suppliers') }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('admin.SystemsView:index') }}">
+                <i class="fa fa-desktop"></i>
+                <span>{{ _('Systems') }}</span>
+            </a>
+        </li>
+        <!--<li>
+            <a href="{{ url_for('admin.StatusView:index') }}">
+                <i class="fa fa-info-circle"></i>
+                <span>Status</span>
+            </a>
+        </li>-->
+        <li>
+            <a href="{{ url_for('admin.UserView:index') }}">
+                <i class=" fa fa-user"></i>
+                <span>{{ _('Users') }}</span>
+            </a>
+        </li>
+    </ul>
+</aside>
