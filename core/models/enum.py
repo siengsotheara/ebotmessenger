@@ -11,4 +11,8 @@ class Status(Enum):
     __val__     = 1000
     Y        = 'Y'
     N        = 'N' 
+
+class MediaType(Enum):
+    video = 'video'
+    image = 'image'
    

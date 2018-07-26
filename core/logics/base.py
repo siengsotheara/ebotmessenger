@@ -20,13 +20,13 @@ class LogicBase:
                 result = result.filter_by(is_active=True)
         return result.all()
 
-    def _actives(self):
+    def _active(self):
         q = db.query(self.__classname__).filter_by(is_active=True)
         return q
 
-    def search(self, **kwargs):
+    def _search(self, **kwargs):
         search = kwargs['search'] if 'search' in kwargs else ''
-        q = self._actives()
+        q = self._active()
         if search:
             if hasattr(self.__classname__, 'name') and hasattr(self.__classname__, 'code'):
                 q = q.filter(
@@ -45,7 +45,7 @@ class LogicBase:
         return result
 
     def _count(self):
-        return self._actives().count()
+        return self._active().count()
 
     def _insert(self, obj):
         if hasattr(obj, 'is_active'):
@@ -55,7 +55,7 @@ class LogicBase:
         db.commit()
 
     def _update(self, obj):
-        if hasattr(obj, 'update_date'):
+        if hasattr(obj, 'update_at'):
             obj.update_date=datetime.date.today()
         if hasattr(obj, 'update_by'):
             obj.update_by = 'Default Update'
@@ -65,7 +65,7 @@ class LogicBase:
     def _delete(self, obj):
         if hasattr(obj, 'delete_by'):
             obj.delete_by = 'Default Delete'
-        if hasattr(obj, 'delete_date'):
+        if hasattr(obj, 'delete_at'):
             obj.delete_date = datetime.date.today()
         if hasattr(obj, 'is_active'):
             obj.is_active=Status.N

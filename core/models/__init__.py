@@ -24,7 +24,7 @@ class TrackMixin(object):
     """The TrackMixin Tables is wholed the default tracking columns to tables inherit from this class Model"""
     @declared_attr
     def create_date(cls):
-        return Column(DATE, name='CREATE_DATE', default=datetime.today)
+        return Column(DATE, name='CREATE_AT', default=datetime.today)
 
     @declared_attr
     def create_by(cls):
@@ -32,7 +32,7 @@ class TrackMixin(object):
 
     @declared_attr
     def update_date(cls):
-        return Column(DATE, name='UPDATE_DATE')
+        return Column(DATE, name='UPDATE_AT')
 
     @declared_attr
     def update_by(cls):
@@ -40,7 +40,7 @@ class TrackMixin(object):
 
     @declared_attr
     def delete_date(cls):
-        return Column(DATE, name='DELETE_DATE')
+        return Column(DATE, name='DELETE_AT')
 
     @declared_attr
     def delete_by(cls):

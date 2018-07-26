@@ -36,7 +36,7 @@ def get_locale():
 def language(code):
 	session['language'] = code
 	refresh()
-	return redirect(url_for('/'))
+	return redirect(url_for('admin.HomeView:home'))
 
 
 @app.route('/login/authorize', methods=['GET'])
