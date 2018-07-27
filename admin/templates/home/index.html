@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block content %}
+<!--{% block content %}
 <div class="wrapper">
     <header class="header">
         <div class="logo">
@@ -64,27 +64,4 @@
         <article class="content" style="overflow: auto;"></article>
     </section>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "{{ url_for('admin.HomeView:dashboard') }}",
-            data: "",
-            type: 'GET',
-            success: function (resp) {
-                $(".content").html(resp);
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
-
-        $("ul.navigation-menu > li").click(function () {
-            $(".dropdown").not($(".dropdown", this)).hide();
-            $(".dropdown", this).toggle();
-        });
-    });
-</script>
 {% endblock %}

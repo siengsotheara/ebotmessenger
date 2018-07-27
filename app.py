@@ -3,6 +3,7 @@ import sys
 import os 
 import json
 import uuid
+from datetime import timedelta
 
 from werkzeug.exceptions import HTTPException
 from flask import Flask, request, render_template, redirect, url_for, Blueprint, jsonify
@@ -16,6 +17,7 @@ errors = Blueprint('errors', __name__)
 data = None
 
 app.config['SECRET_KEY'] = SECRET_KEY
+app.permanent_session_lifetime = timedelta(minutes=5)
 
 babel = Babel(app)
 ctx = app.app_context()
@@ -141,7 +143,7 @@ import threading_setup
 import register_blueprint
 
 @app.route('/')
-def home():
+def index():
 	return redirect(url_for('admin.HomeView:index'))
 
 

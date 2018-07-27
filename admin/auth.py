@@ -1,38 +1,30 @@
-from flask import render_template, request, url_for, session, Flask, escape, redirect, Response
+﻿from flask import render_template, request, url_for, session, Flask, escape, redirect, Response
 from functools import wraps
 from app import app , jsonify
-from core.logics.base import *
-
+from core.logics.user import UserLogic, users
 
 def check_auth(username, password):
-    #u = users.authenticate(username, password)
-    #if u:
-    #    session['user_id']=u.id
-    #    session['username']=u.username
-    #return u
-
-    return username == BaseConfig.username and password == BaseConfig.password
+	user = users.authenticate_webportal(username, password)
+	if user:
+		session['username'] = user.username
+	return user
 
 def authenticate():
-    log.info(request.remote_addr + ' '+ request.method+ ' ' + request.url)
-    message = {"MESSAGE": "UNAUTHENTICATED","STATUS_CODE":401}
-    resp = jsonify(message)
-
-    resp.status_code = 401
-    resp.headers['WWW-Authenticate'] = 'Basic realm="Example"'
-
-    return resp
-
+	"""Sends a 401 response that enables basic auth"""
+	return Response(
+	'Could not verify your access level for that URL.\n'
+	'You have to login with proper credentials', 401,
+	{'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth: 
-            return authenticate()
-
-        elif not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-
-    return decorated
+	@wraps(f)
+	def decorated(*args, **kwargs):
+		if 'username' not in session:
+			auth = request.authorization
+			if not auth or not check_auth(auth.username, auth.password):
+				if 'X-Requested-With' in request.args and request.args['X-Requested-With']=='XMLHttpRequest':
+					return authenticate()
+				else:
+					return redirect(url_for('admin.SecurityView:login'))
+		return f(*args, **kwargs)
+	return decorated

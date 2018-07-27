@@ -1,6 +1,5 @@
 ﻿from admin.views.baseview import *
 from core.logics.broadcast import broadcast, BroadcastMessage
-from flask_babel import lazy_gettext as _
 
 
 #class UserFilterForm(Form):

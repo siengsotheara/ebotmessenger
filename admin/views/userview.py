@@ -51,7 +51,7 @@ class UserForm(Form):
             }
         )
 
-class ChangePasswordForm(Form):
+class ChangePasswordForm(FlaskForm):
     name = TextField(
         _(u'Username'),
         render_kw = {

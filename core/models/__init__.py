@@ -50,6 +50,13 @@ class TrackMixin(object):
     def is_active(cls):
         return Column(VARCHAR2(1), name='IS_ACTIVE', nullable=False)
 
+class User(Base, TrackMixin):
+    __tablename__ = 'TBL_FACEBOOK_USER'
+    id = Column(NUMBER, Sequence('TBL_USER_SEQ'), primary_key=True, name='ID')
+    username = Column(VARCHAR(50), unique=True, name='USERNAME')
+    password = Column(VARCHAR(50), name='PASSWORD')
+    email = Column(VARCHAR(50), unique=True, name='EMAIL')
+    facebook_id = Column(NUMBER, name='FACEBOOK_ID')
 
 class BroadcastMessage(Base, TrackMixin):
     __tablename__ = 'TBL_FACEBOOK_BROADCAST_MSG'
@@ -60,5 +67,11 @@ class Attachment(Base, TrackMixin):
     __tablename__ = 'TBL_FACEBOOK_ATTACHMENT'
     id = Column(NUMBER, Sequence('TBL_FACEBOOK_ATTACHMENT_SEQ'), primary_key=True, name='ID')
     attachment_id = Column(NUMBER, name='ATTACHMENT_ID')
+
+class FacebookConfig(Base):
+    __tablename__ = 'TBL_FACEBOOK_CONFIG'
+    code = Column(VARCHAR(100), name='CODE', primary_key=True)
+    remark = Column(VARCHAR(200), name='REMARK')
+    description = Column(VARCHAR(200), name='DESCRIPTION')
 
 

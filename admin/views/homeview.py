@@ -3,7 +3,7 @@ import datetime
 
 class HomeView(AdminSecureView):
     
-    @route('/')
+    @route('/index.html')
     def index(self):
         return render_template('home/index.html')
 
