@@ -21,5 +21,5 @@ class AdminView(FlaskView):
     pass
 
 class AdminSecureView(FlaskView):
-    #decorators = [requires_auth]
-    pass
+    decorators = [requires_auth]
+    #pass

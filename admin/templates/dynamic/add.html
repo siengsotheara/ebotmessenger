@@ -1,0 +1,18 @@
+﻿{% extends "layout.html" %}
+
+{% block sidebar %}
+    {% include "sidebar.html" ignore missing %}
+{% endblock %}
+
+{% block breadcrumb %}
+<section class="content-header">
+    <h1>
+        {{ _('Broadcast Messages') }}
+        <small>{{ _('Dynamic Text') }}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('admin.BroadcastView:index') }}"><i class="fa fa-dashboard"></i> {{ _('Dynamic Text') }}</a></li>
+        <li class="active">{{ _('Edit') }}</li>
+    </ol>
+</section>
+{% endblock %}
