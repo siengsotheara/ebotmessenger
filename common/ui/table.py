@@ -170,13 +170,13 @@ class TableBase(with_metaclass(TableMeta)):
         return HTMLString(''.join(results))
 
     def render_row(self,row):
-        tds=['<tr>']
+        tds=['<td>']
         for column in itervalues(self._fields):
             tds.append(column.render(row))
-        tds.append('</tr>')
+        tds.append('</td>')
         return HTMLString(''.join(tds))
 
-    def render_rows(self,html_tag ='tr'):
+    def render_rows(self, html_tag ='td'):
         trs =[]
         row_number = 0
         for row in self.data:
@@ -186,8 +186,6 @@ class TableBase(with_metaclass(TableMeta)):
             except:
                 row['_row_number']=row_number
             trs.append(self.render_row(row))
-        if not row_number:
-            trs.append('<tr><td colspan="100%">No row found!</td></tr>')
         return HTMLString(''.join(trs))
 
 

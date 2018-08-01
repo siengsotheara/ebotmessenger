@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block sidebar %}
-    <ul class="sidebar-menu" data-widget="tree">
+<ul class="sidebar-menu" data-widget="tree">
     <li class="header">MAIN NAVIGATION</li>
-    <!-- Optionally, you can add icons to the links -->
     <li class="active"><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-tachometer"></i> <span>{{ _('Dashboard') }}</span></a></li>
     <li class="treeview">
         <a href="#">
@@ -13,9 +12,10 @@
             </span>
         </a>
         <ul class="treeview-menu">
+            <li><a href="{{ url_for('admin.BroadcastView:index')}}">{{ _('Messages List') }}</a></li>
             <li><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
-            <li><a href="#">{{ _('Image') }}</a></li>
-            <li><a href="#">{{ _('Video') }}</a></li>
+            <li><a href="{{ url_for('admin.ImageView:index')}}">{{ _('Image') }}</a></li>
+            <li><a href="{{ url_for('admin.VideoView:index')}}">{{ _('Video') }}</a></li>
         </ul>
     </li>
     <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>

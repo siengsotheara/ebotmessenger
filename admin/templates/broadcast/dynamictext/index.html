@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block sidebar %}
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-tachometer"></i> <span>{{ _('Dashboard') }}</span></a></li>
+    <li class="treeview active">
+        <a href="#">
+            <i class="fa fa-bullhorn"></i> <span>{{ _('Broadcast Messages') }}</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{ url_for('admin.BroadcastView:index')}}">{{ _('Messages List') }}</a></li>
+            <li class ="active"><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
+            <li><a href="{{ url_for('admin.ImageView:index')}}">{{ _('Image') }}</a></li>
+            <li><a href="{{ url_for('admin.VideoView:index')}}">{{ _('Video') }}</a></li>
+        </ul>
+    </li>
+    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>
+    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-calendar-o"></i> <span>{{ _('Scheduling Broadcasts') }}</span></a></li>
+</ul>
+{% endblock %}
+
+{% block breadcrumb %}
+<section class="content-header">
+    <h1>
+        {{ _('Broadcast Messages') }}
+        <small>Dynamic Text</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('admin.HomeView:index') }}"><i class="fa fa-tachometer"></i> Home</a></li>
+        <li><a href="{{ url_for('admin.DynamicTextView:index') }}"><i class="fa fa-bullhorn"></i> Broadcast Messages</a></li>
+        <li class="active">{{ _('Dynamic Text') }}</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Posting Dynamic Text</h3>
+            </div>
+          
+            <form action="{{ url_for('admin.DynamicTextView:add') }}" role="form" method="post">
+                <div class="box-body">
+                    <div class="form-group">
+                        {{ form.hidden_tag() if form.hidden_tag }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Text</label>
+                        {{ form.text }}
+                    </div>
+                    <div class="form-group">
+                        <label>Fallback Text</label>
+                        {{ form.fallback_text }}
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function () {
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            'processing': true,
+            'stateSave': true,
+            language: {
+                search: '_INPUT_',
+                searchPlaceholder: '{{ _("Search...") }}'
+                }
+        });
+    })
+
+</script>
+{% endblock %}

@@ -28,39 +28,40 @@ class UserLogic(LogicBase):
 		return user
 
 	def authenticate_webportal(self, username, password):
-		"""
-		Login Webportal ESB
-
-		example: 
-
-		requests.post(url='http://192.168.100.13:8080/esb/oauth/token', headers={'Content-Type':'application/json'}, data={})
-		"""
-
 		user = User()
 	
-		request_token = json.dumps({
-			'app_id':'BANKINGBOT',
-			'client_id':'bankingbot_web',
-			'client_secret':'KV08pFPMVN/QZCi8BwJCGmzVy6gPFZuQjuTSbK6jeBM=',
-			'grant_type':'password',
-			'username': username,
-			'password': base64.b64encode(password),
-			'scope':'read,write'
-		})
+		try:
+			# data
+			request_token = json.dumps({
+				'app_id':'BANKINGBOT',
+				'client_id':'bankingbot_web',
+				'client_secret':'KV08pFPMVN/QZCi8BwJCGmzVy6gPFZuQjuTSbK6jeBM=',
+				'grant_type':'password',
+				'username': username,
+				'password': base64.b64encode(password),
+				'scope':'read,write'
+			})
 
-		webportal_data = requests.post(url='http://192.168.100.13:8080/esb/oauth/token', headers=self.headers, data=request_token)
+			# request authentication
+			webportal_data = requests.post(url='http://192.168.100.13:8080/esb/oauth/token', headers=self.headers, data=request_token)
 			
-		if webportal_data.status_code == requests.codes.ok:
-			login_request = requests.get(url='http://192.168.100.13:8080/esb/oauth/get/token', headers={"Authorization" : webportal_data.json()['access_token']})
-			if login_request.status_code != requests.codes.ok:
-				return None
-			else:
-				user.username = username
-				user.password = hash_password(user.username + password)
-		else:
-			return None
+			if webportal_data.status_code == requests.codes.ok:
+				login_request = requests.get(url='http://192.168.100.13:8080/esb/oauth/get/token', headers={"Authorization" : webportal_data.json()['access_token']})
 
-		return user
+				if login_request.status_code != requests.codes.ok:
+					return None
+				else:
+					user.username = username
+					user.password = hash_password(user.username + password)
+					return user
+			else:
+				return None
+		except requests.exceptions.Timeout as e:
+			print ('Timeout: ', e)
+		except requests.exceptions.ConnectionError as e:
+			print ('ConnectionError: ', e)
+		
+		return None
 
 	def _insert(self, obj):
 		obj.username = obj.username.lower()
