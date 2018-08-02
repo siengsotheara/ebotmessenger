@@ -83,4 +83,15 @@ class UserLogic(LogicBase):
 		obj.password = hash_password(obj.username + obj.password)
 		LogicBase._update(obj)
 
+	def current_user():
+		user = User()
+		if 'username' in session:
+			username = session['username']
+			user.username = username
+		else:
+			user.username = 'anonymous'
+			user.password = 'anonymous'
+		return user
+
+
 users = UserLogic()

@@ -138,11 +138,17 @@ class DateColumn(Column):
 
 class DateTimeColumn(Column):
     def render(self,row, tag = 'td'):
-        return '<td>%s</td>'%self.value(row).strftime('%Y-%m-%d %H:%M:%S')
+        return '<td>%s</td>'%self.value(row).strftime('%Y-%m-%d %H:%M:%S %p')
 
 class DecimalColumn(Column):
     def render(self, row, tag = 'td'):
         return '<td class="decimal">%.2f</td>'% self.value(row)
+
+class LinkColumn(Column):
+    def render(self, row, tag = 'td'):
+        if self.render_kw.get('link', None):
+            return '<td><a href="%s">%s</a></td>'%(self.render_kw['link']+self.value(row), self.value(row))
+        return '<td><a href="#">%s</a></td>'%(self.value(row))
 
 
 class TableBase(with_metaclass(TableMeta)):
@@ -170,10 +176,10 @@ class TableBase(with_metaclass(TableMeta)):
         return HTMLString(''.join(results))
 
     def render_row(self,row):
-        tds=['<td>']
+        tds=['<tr>']
         for column in itervalues(self._fields):
             tds.append(column.render(row))
-        tds.append('</td>')
+        tds.append('</tr>')
         return HTMLString(''.join(tds))
 
     def render_rows(self, html_tag ='td'):

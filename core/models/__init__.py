@@ -17,13 +17,12 @@ from datetime import datetime, timedelta
 from core.databases import db
 from core.models import enum
 
-
 Base = declarative_base()
 
 class TrackMixin(object):
     """The TrackMixin Tables is wholed the default tracking columns to tables inherit from this class Model"""
     @declared_attr
-    def create_date(cls):
+    def create_at(cls):
         return Column(DATE, name='CREATE_AT', default=datetime.today)
 
     @declared_attr
@@ -31,15 +30,15 @@ class TrackMixin(object):
         return Column(VARCHAR2(255), name='CREATE_BY', default='Dummy')
 
     @declared_attr
-    def update_date(cls):
-        return Column(DATE, name='UPDATE_AT')
+    def update_at(cls):
+        return Column(DATE, name='UPDATE_AT', onupdate=datetime.today)
 
     @declared_attr
     def update_by(cls):
         return Column(VARCHAR2(255), name='UPDATE_BY')
 
     @declared_attr
-    def delete_date(cls):
+    def delete_at(cls):
         return Column(DATE, name='DELETE_AT')
 
     @declared_attr
@@ -56,17 +55,23 @@ class User(Base, TrackMixin):
     username = Column(VARCHAR(50), unique=True, name='USERNAME')
     password = Column(VARCHAR(50), name='PASSWORD')
     email = Column(VARCHAR(50), unique=True, name='EMAIL')
-    facebook_id = Column(NUMBER, name='FACEBOOK_ID')
+    facebook_id = Column(VARCHAR(50), name='FACEBOOK_ID')
 
 class BroadcastMessage(Base, TrackMixin):
     __tablename__ = 'TBL_FACEBOOK_BROADCAST_MSG'
     id = Column(NUMBER, Sequence('TBL_FACEBOOK_BROADCAST_MSG_SEQ'), primary_key=True, name='ID')
-    message_creative_id = Column(NUMBER, name='MESSAGE_CREATIVE_ID')
-
-class Attachment(Base, TrackMixin):
-    __tablename__ = 'TBL_FACEBOOK_ATTACHMENT'
-    id = Column(NUMBER, Sequence('TBL_FACEBOOK_ATTACHMENT_SEQ'), primary_key=True, name='ID')
-    attachment_id = Column(NUMBER, name='ATTACHMENT_ID')
+    message_creative_id = Column(VARCHAR(50), name='MESSAGE_CREATIVE_ID')
+    message_creative_type =  Column(VARCHAR(50), name='MESSAGE_CREATIVE_TYPE')
+    is_already_broadcast = Column(VARCHAR(1), name='IS_ALREADY_BROADCAST')
+        
+class Broadcast(Base, TrackMixin):
+    __tablename__ = 'TBL_FACEBOOK_BROADCAST'
+    id =  Column(NUMBER, Sequence('TBL_FACEBOOK_BROADCAST_SEQ'), primary_key=True, name='ID')
+    message_creative_id = Column(VARCHAR(50), name='MESSAGE_CREATIVE_ID')
+    notification_type = Column(VARCHAR(50), name='NOTIFICATION_TYPE')
+    broadcast_id = Column(VARCHAR(50), name='BROADCAST_ID')
+    messaging_type = Column(VARCHAR(50), name='MESSAGING_TYPE')
+    tag = Column(VARCHAR(50), name='TAG')
 
 class FacebookConfig(Base):
     __tablename__ = 'TBL_FACEBOOK_CONFIG'

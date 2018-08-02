@@ -13,9 +13,9 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="{{ url_for('admin.BroadcastView:index')}}">{{ _('Messages List') }}</a></li>
-            <li class ="active"><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
-            <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Video & Image') }}</a></li>
-            <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Text Button Share') }}</a></li>
+            <li><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
+            <li class="active"><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Video & Image') }}</a></li>
+            <li><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Text Button Share') }}</a></li>
         </ul>
     </li>
     <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>
@@ -27,12 +27,12 @@
 <section class="content-header">
     <h1>
         {{ _('Broadcast Messages') }}
-        <small>Dynamic Text</small>
+        <small>{{ _('Video & Image') }}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url_for('admin.HomeView:index') }}"><i class="fa fa-tachometer"></i> Home</a></li>
         <li><a href="{{ url_for('admin.BroadcastView:index') }}"><i class="fa fa-bullhorn"></i> Broadcast Messages</a></li>
-        <li class="active">{{ _('Dynamic Text') }}</li>
+        <li class="active">{{ _('Video & Image') }}</li>
     </ol>
 </section>
 {% endblock %}
@@ -42,21 +42,39 @@
     <div class="col-sm-6">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Posting Dynamic Text</h3>
+                <h3 class="box-title">Posting Video or Image with button share</h3>
             </div>
           
-            <form action="{{ url_for('admin.DynamicTextView:add') }}" role="form" method="post">
+            <form action="{{ url_for('admin.VideoImageView:add') }}" role="form" method="post">
                 <div class="box-body">
                     <div class="form-group">
                         {{ form.hidden_tag() if form.hidden_tag }}
                     </div>
                     <div class="form-group">
-                        <label>Text</label>
-                        {{ form.text }}
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="form-group">
-                        <label>Fallback Text</label>
-                        {{ form.fallback_text }}
+                        <label>Media Type</label>
+                        <select name="media_type" class="form-control select2" style="width: 100%;">
+                            <option selected="selected">video</option>
+                            <option>image</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        {{ form.url }}
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook's content URL</label>
+                        {{ form.share_url }}
+                    </div>
+                    <div class="form-group">
+                        <label>Button Title</label>
+                        {{ form.button_title }}
                     </div>
                     <div class="form-group">
                         <label>Notification Type</label>

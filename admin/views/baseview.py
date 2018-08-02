@@ -13,7 +13,7 @@ from admin.auth import requires_auth
 from common.flask_helpers import *
 from common.json_helpers import *
 from common.ui.dynamicselect import DynamicSelectField
-from common.ui.table import Table, Column, CheckColumn, RowNumberColumn, LamdaColumn, DateColumn, DateTimeColumn, DecimalColumn
+from common.ui.table import Table, Column, CheckColumn, RowNumberColumn, LamdaColumn, DateColumn, DateTimeColumn, DecimalColumn, LinkColumn
 from common.ui.dataview import DataView
 
 import requests

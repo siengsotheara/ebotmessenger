@@ -17,7 +17,7 @@ errors = Blueprint('errors', __name__)
 data = None
 
 app.config['SECRET_KEY'] = SECRET_KEY
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=10)
 
 babel = Babel(app)
 ctx = app.app_context()
@@ -126,18 +126,20 @@ def after_send(payload, response):
 #	}   
 #	return jsonify(response)
 
-#@errors.app_errorhandler(Exception)
-#def handle_error(error):
-#	message = [str(x) for x in error.args]
-#	status_code = error.status_code
-#	response = {
-#		'error': {
-#			'type': error.__class__.__name__,
-#			'message': message
-#		}
-#	}
+@errors.app_errorhandler(Exception)
+def handle_error(error):
+	message = [str(x) for x in error.args]
+	status_code = error.status_code
+	success = False
+	response = {
+		'success': success,
+		'error': {
+			'type': error.__class__.__name__,
+			'message': message
+		}
+	}
 
-#	return jsonify(response), status_code
+	return jsonify(response), status_code
 
 import threading_setup
 import register_blueprint
