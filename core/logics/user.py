@@ -33,7 +33,7 @@ class UserLogic(LogicBase):
 		try:
 			# data
 			request_token = json.dumps({
-				'app_id':'BANKINGBOT',
+				'app_code':'BANKINGBOT',
 				'client_id':'bankingbot_web',
 				'client_secret':'KV08pFPMVN/QZCi8BwJCGmzVy6gPFZuQjuTSbK6jeBM=',
 				'grant_type':'password',

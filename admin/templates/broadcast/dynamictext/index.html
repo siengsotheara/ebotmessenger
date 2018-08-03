@@ -15,10 +15,10 @@
             <li><a href="{{ url_for('admin.BroadcastView:index')}}">{{ _('Messages List') }}</a></li>
             <li class ="active"><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
             <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Video & Image') }}</a></li>
-            <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Text Button Share') }}</a></li>
+            <li><a href="{{ url_for('admin.TextButtonShareView:index')}}">{{ _('Text Button Share') }}</a></li>
         </ul>
     </li>
-    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>
+    <li><a href="{{ url_for('admin.MetricView:index') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>
     <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-calendar-o"></i> <span>{{ _('Scheduling Broadcasts') }}</span></a></li>
 </ul>
 {% endblock %}

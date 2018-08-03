@@ -25,6 +25,6 @@ def requires_auth(f):
 				if 'X-Requested-With' in request.args and request.args['X-Requested-With']=='XMLHttpRequest':
 					return authenticate()
 				else:
-					return redirect(url_for('admin.SecurityView:login'))
+					return redirect(url_for('admin.SecurityView:login', next=request.url))
 		return f(*args, **kwargs)
 	return decorated

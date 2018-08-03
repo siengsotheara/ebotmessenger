@@ -1,9 +1,0 @@
-﻿{% from "_macros/wtforms.html" import render_field, render_form %}
-
-<header class="content-header">
-    {{ title }}
-</header>
-<section class="content-section">
-    {{ render_form(form, action_url=url_for('admin.UserView:add'), return_url=url_for('admin.UserView:index'), return_text=_('Back'), action_text=_('Save')) }}
-</section>
-

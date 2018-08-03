@@ -110,6 +110,9 @@ def handle_message(event):
 def after_send(payload, response):
 	print "response:", response.json()
 
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('/error/404.html'), 404
 
 #@app.errorhandler(Exception)
 #def all_exception_handler(error):
