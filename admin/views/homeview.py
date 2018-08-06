@@ -1,11 +1,12 @@
 ﻿from admin.views.baseview import *
+from core.logics.user import users
 import datetime
 
 class HomeView(AdminSecureView):
     
     @route('/index.html')
     def index(self):
-        return render_template('home/index.html')
+        return render_template('home/index.html', username=users.current_user().username)
 
     @route('/dashboard.html')
     def dashboard(self):

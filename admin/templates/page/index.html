@@ -1,0 +1,39 @@
+﻿{% extends "layout.html" %}
+
+{% block sidebar %}
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-tachometer"></i> <span>{{ _('Dashboard') }}</span></a></li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-bullhorn"></i> <span>{{ _('Broadcast Messages') }}</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{ url_for('admin.BroadcastView:index')}}">{{ _('Messages List') }}</a></li>
+            <li><a href="{{ url_for('admin.DynamicTextView:index')}}">{{ _('Dynamic Text') }}</a></li>
+            <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Video & Image') }}</a></li>
+            <li><a href="{{ url_for('admin.VideoImageView:index')}}">{{ _('Text Button Share') }}</a></li>
+        </ul>
+    </li>
+    <li><a href="{{ url_for('admin.MetricView:index') }}"><i class="fa fa-line-chart"></i> <span>{{ _('Broadcast Metrics') }}</span></a></li>
+    <li><a href="{{ url_for('admin.HomeView:dashboard') }}"><i class="fa fa-calendar-o"></i> <span>{{ _('Scheduling Broadcasts') }}</span></a></li>
+    <li><a href="{{ url_for('admin.UserView:index') }}"><i class="fa fa-users"></i> <span>{{ _('User') }}</span></a></li>
+    <li><a href="{{ url_for('admin.PageView:index') }}"><i class="fa fa-flag"></i> <span>{{ _('Page Setting') }}</span></a></li>
+</ul>
+
+{% endblock %}
+
+{% block breadcrumb %}
+<section class="content-header">
+    <h1>
+        {{ _('Dashboard') }}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('admin.DynamicTextView:index') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">{{ _('Dashboard') }}</li>
+    </ol>
+</section>
+{% endblock %}

@@ -1,5 +1,6 @@
 ﻿from admin.views.baseview import *
 from core.logics.broadcast import broadcasts, Broadcast
+from core.logics.user import users
 from core.logics.broadcastmessage import broadcastmessages, BroadcastMessage
 from flask_babel import lazy_gettext as _
 
@@ -18,7 +19,7 @@ class MetricView(AdminSecureView):
 	@route('/index.html')
 	def index(self):
 		table = MetricTable(data=broadcasts._search())
-		return render_template('/metric/index.html', table=table)
+		return render_template('/metric/index.html', table=table, username=users.current_user().username)
 
 	@route('/graph.html/<pid>', methods=['GET', 'POST'])
 	def graph(self, pid):
@@ -50,6 +51,7 @@ class MetricView(AdminSecureView):
 						 period=period,
 						 title=title,
 						 description=description,
-						 name=name)
+						 name=name,
+						 username=users.current_user().username)
 
 MetricView.register(admin_blueprint)

@@ -1,5 +1,6 @@
 ﻿from admin.views.baseview import *
 from core.logics.broadcast import broadcasts, Broadcast
+from core.logics.user import users
 from core.logics.broadcastmessage import broadcastmessages, BroadcastMessage
 from flask_babel import lazy_gettext as _
 
@@ -33,7 +34,7 @@ class BroadcastView(AdminSecureView):
 	@route('/index.html')
 	def index(self):
 		table = DynamicTextTable(data=broadcastmessages._search())
-		return render_template('/broadcast/index.html', table=table)
+		return render_template('/broadcast/index.html', table=table, username=users.current_user().username)
 
 class DynamicTextView(AdminSecureView):
 	"""
@@ -44,7 +45,7 @@ class DynamicTextView(AdminSecureView):
 	def index(self):
 		table = DynamicTextTable(data=[])
 		form  = DynamicTextForm()
-		return render_template('/broadcast/dynamictext/index.html', form=form, table=table)
+		return render_template('/broadcast/dynamictext/index.html', form=form, table=table, username=users.current_user().username)
 
 	@route('/add.html', methods = ['POST'])
 	def add(self):
@@ -100,7 +101,7 @@ class DynamicTextView(AdminSecureView):
 						broadcasts._insert(obj)
 						return redirect(url_for('admin.BroadcastView:index'))
 
-		return render_template('/broadcast/dynamictext/index.html', form=form)
+		return render_template('/broadcast/dynamictext/index.html', form=form, username=users.current_user().username)
 
 class VideoImageView(AdminSecureView):
 	"""
@@ -110,7 +111,7 @@ class VideoImageView(AdminSecureView):
 	@route('/index.html')
 	def index(self):
 		form = VideoImageForm()
-		return render_template('/broadcast/videoimage/index.html', form=form, error=None)
+		return render_template('/broadcast/videoimage/index.html', form=form, error=None, username=users.current_user().username)
 
 	@route('/add.html', methods = ['POST'])
 	def add(self):
@@ -185,7 +186,7 @@ class VideoImageView(AdminSecureView):
 			else:
 				error = message_creative.json()['error']['message']
 
-		return render_template('/broadcast/videoimage/index.html', form=form, error=error)
+		return render_template('/broadcast/videoimage/index.html', form=form, error=error, username=users.current_user().username)
 
 
 class TextButtonShareView(AdminSecureView):
@@ -196,7 +197,7 @@ class TextButtonShareView(AdminSecureView):
 	@route('/index.html', methods = ['GET'])
 	def index(self):
 		form  = TextButtonShareForm()
-		return render_template('/broadcast/textbuttonshare/index.html', form=form)
+		return render_template('/broadcast/textbuttonshare/index.html', form=form, username=users.current_user().username)
 
 	@route('/add.html', methods = ['POST'])
 	def add(self):
@@ -267,7 +268,7 @@ class TextButtonShareView(AdminSecureView):
 			else:
 				error = message_creative.json()['error']['message']
 
-		render_template('/broadcast/textbuttonshare/index.html', form=form, error=error)
+		render_template('/broadcast/textbuttonshare/index.html', form=form, error=error, username=users.current_user().username)
 
 BroadcastView.register(admin_blueprint)
 DynamicTextView.register(admin_blueprint)

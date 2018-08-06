@@ -4,7 +4,7 @@ from app import app , jsonify
 from core.logics.user import UserLogic, users
 
 def check_auth(username, password):
-	user = users.authenticate_webportal(username, password)
+	user = users.authenticate(username, password)
 	if user:
 		session['username'] = user.username
 	return user

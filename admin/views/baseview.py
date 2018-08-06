@@ -3,7 +3,7 @@ from flask import current_app as app
 from flask import render_template, redirect, request, url_for, make_response
 from flask_classy import FlaskView, route
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField, HiddenField, validators, TextAreaField
+from wtforms import TextField, PasswordField, HiddenField, validators, TextAreaField, SelectField
 
 from config import FACEBOOK_TOKEN
 

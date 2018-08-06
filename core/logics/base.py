@@ -4,6 +4,8 @@ from core.models.enum import Status
 from sqlalchemy import func, desc, asc, and_, or_ , not_
 from datetime import datetime
 
+from flask import session
+
 class LogicBase:
     __classname__ = None;
 
@@ -51,6 +53,8 @@ class LogicBase:
     def _insert(self, obj):
         if hasattr(obj, 'is_active'):
             obj.is_active=Status.Y
+        if hasattr(obj, 'create_by'):
+            obj.create_by = self._current_username()
 
         db.add(obj)
         db.commit()
@@ -59,13 +63,13 @@ class LogicBase:
         if hasattr(obj, 'update_at'):
             obj.update_date=datetime.date.today()
         if hasattr(obj, 'update_by'):
-            obj.update_by = ''
+            obj.update_by = self._current_username()
 
         db.commit()
 
     def _delete(self, obj):
         if hasattr(obj, 'delete_by'):
-            obj.delete_by = ''
+            obj.delete_by = self._current_username()
         if hasattr(obj, 'delete_at'):
             obj.delete_date = datetime.date.today()
         if hasattr(obj, 'is_active'):
@@ -74,3 +78,9 @@ class LogicBase:
             db.remove(obj)
 
         db.commit()
+
+    def _current_username(self):
+        if 'username' in session:
+            return session['username']
+        else:
+            return 'Unknown'

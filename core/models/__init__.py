@@ -27,7 +27,7 @@ class TrackMixin(object):
 
     @declared_attr
     def create_by(cls):
-        return Column(VARCHAR2(255), name='CREATE_BY', default='Dummy')
+        return Column(VARCHAR2(255), name='CREATE_BY')
 
     @declared_attr
     def update_at(cls):
@@ -54,6 +54,7 @@ class User(Base, TrackMixin):
     id = Column(NUMBER, Sequence('TBL_USER_SEQ'), primary_key=True, name='ID')
     username = Column(VARCHAR(50), unique=True, name='USERNAME')
     password = Column(VARCHAR(50), name='PASSWORD')
+    is_login_ad = Column(VARCHAR(1), name='IS_LOGIN_AD')
     email = Column(VARCHAR(50), unique=True, name='EMAIL')
     facebook_id = Column(VARCHAR(50), name='FACEBOOK_ID')
 
@@ -75,8 +76,8 @@ class Broadcast(Base, TrackMixin):
 
 class FacebookConfig(Base):
     __tablename__ = 'TBL_FACEBOOK_CONFIG'
-    code = Column(VARCHAR(100), name='CODE', primary_key=True)
-    remark = Column(VARCHAR(200), name='REMARK')
+    key = Column(VARCHAR(100), name='KEY', primary_key=True)
+    value = Column(VARCHAR(200), name='VALUE')
     description = Column(VARCHAR(200), name='DESCRIPTION')
 
 

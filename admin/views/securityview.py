@@ -40,7 +40,7 @@ class SecurityView(AdminView):
 			form.target.data = request.args.get("next", 'admin.HomeView:index')
 
 		if form.validate_on_submit():
-			user = users.authenticate_webportal(form.username.data, form.password.data)
+			user = users.authenticate(form.username.data, form.password.data)
 			if user:
 				set_session('username', user.username)
 				return redirect(form.target.data or url_for('admin.HomeView:index'))
