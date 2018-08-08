@@ -144,7 +144,7 @@ def handle_error(error):
 
 	return jsonify(response), status_code
 
-import threading_setup
+#import threading_setup
 import register_blueprint
 
 @app.route('/')

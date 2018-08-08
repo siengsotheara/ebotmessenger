@@ -31,7 +31,7 @@ class TrackMixin(object):
 
     @declared_attr
     def update_at(cls):
-        return Column(DATE, name='UPDATE_AT', onupdate=datetime.today)
+        return Column(DATE, name='UPDATE_AT')
 
     @declared_attr
     def update_by(cls):
@@ -53,7 +53,8 @@ class User(Base, TrackMixin):
     __tablename__ = 'TBL_FACEBOOK_USER'
     id = Column(NUMBER, Sequence('TBL_USER_SEQ'), primary_key=True, name='ID')
     username = Column(VARCHAR(50), unique=True, name='USERNAME')
-    password = Column(VARCHAR(50), name='PASSWORD')
+    password = Column(VARCHAR(200), name='PASSWORD')
+    full_name = Column(VARCHAR(50), name='FULL_NAME')
     is_login_ad = Column(VARCHAR(1), name='IS_LOGIN_AD')
     email = Column(VARCHAR(50), unique=True, name='EMAIL')
     facebook_id = Column(VARCHAR(50), name='FACEBOOK_ID')
@@ -76,7 +77,8 @@ class Broadcast(Base, TrackMixin):
 
 class FacebookConfig(Base):
     __tablename__ = 'TBL_FACEBOOK_CONFIG'
-    key = Column(VARCHAR(100), name='KEY', primary_key=True)
+    id = Column(NUMBER, Sequence('TBL_FACEBOOK_CONFIG_SEQ'), primary_key=True, name='ID')
+    key = Column(VARCHAR(100), name='KEY')
     value = Column(VARCHAR(200), name='VALUE')
     description = Column(VARCHAR(200), name='DESCRIPTION')
 

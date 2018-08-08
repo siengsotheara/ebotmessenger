@@ -1,4 +1,4 @@
-﻿from core.logics.base import LogicBase
+﻿from core.logics.base import *
 from core.models import User
 from passlib.apps import custom_app_context as pwd_context
 from flask import session
@@ -20,6 +20,16 @@ class UserLogic(LogicBase):
 		self.headers = {
 			"Content-Type": "application/json"
 		}
+
+	def check_duplicate(self, username, update=False):
+		q = self._active()
+		if update:
+			q = q.filter(self.__classname__.username!=username)
+		
+		q = q.filter(self.__classname__.username==username).first()
+		if q:
+			return q
+		return None
 
 	def authenticate(self, username, password):
 		#user = self._active().filter(User.username == username.lower()).first()
@@ -81,17 +91,11 @@ class UserLogic(LogicBase):
 	def _insert(self, obj):
 		obj.username = obj.username.lower()
 		obj.password = hash_password(obj.username + obj.password)
-		LogicBase._insert(obj)
-
-	#def login_AD(self, username, password):
-	#	conn = ldap.initialize('ldap://svr-pdc')
-	#	conn.protocol_version = 3
-	#	conn.set_option(ldap.OPT_REFERRALS, 0)
-	#	return conn.simple_bind_s(username, password)
+		LogicBase()._insert(obj)
 
 	def change_password(self, obj):
 		obj.password = hash_password(obj.username + obj.password)
-		LogicBase._update(obj)
+		LogicBase()._update(obj)
 
 	def current_user(self):
 		user = User()

@@ -9,8 +9,8 @@ from flask import session
 class LogicBase:
     __classname__ = None;
 
-    def __init__(self, *args, **kwargs):
-        self.__classname__ = kwargs['__classname__']
+    #def __init__(self, *args, **kwargs):
+    #    self.__classname__ = kwargs['__classname__']
 
     def _new(self):
         result = self.__classname__()
@@ -24,8 +24,11 @@ class LogicBase:
         return result.all()
 
     def _active(self):
-        q = db.query(self.__classname__).filter_by(is_active=Status.Y)
-        return q
+        if hasattr(self.__classname__, 'is_active'):
+            q = db.query(self.__classname__).filter_by(is_active=Status.Y)
+            return q
+        else:
+            return db.query(self.__classname__)
 
     def _search(self, **kwargs):
         search = kwargs['search'] if 'search' in kwargs else ''
@@ -61,17 +64,17 @@ class LogicBase:
 
     def _update(self, obj):
         if hasattr(obj, 'update_at'):
-            obj.update_date=datetime.date.today()
+            obj.update_at = datetime.utcnow()
         if hasattr(obj, 'update_by'):
             obj.update_by = self._current_username()
-
+        
         db.commit()
 
     def _delete(self, obj):
         if hasattr(obj, 'delete_by'):
             obj.delete_by = self._current_username()
         if hasattr(obj, 'delete_at'):
-            obj.delete_date = datetime.date.today()
+            obj.delete_at = datetime.utcnow()
         if hasattr(obj, 'is_active'):
             obj.is_active=Status.N
         else:

@@ -1,5 +1,23 @@
 {% extends "layout.html" %}
 
+{% block css %}
+<style>
+    .example-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+    }
+
+    .example-modal .modal {
+        background: transparent !important;
+    }
+</style>
+{% endblock %}
+
 {% block sidebar %}
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">MAIN NAVIGATION</li>
@@ -84,6 +102,5 @@
             }
         });
     })
-
 </script>
 {% endblock %}

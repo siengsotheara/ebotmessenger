@@ -2,18 +2,22 @@
 from core.logics.broadcast import broadcasts, Broadcast
 from core.logics.user import users
 from core.logics.broadcastmessage import broadcastmessages, BroadcastMessage
+from core.logics.page import pages
 from flask_babel import lazy_gettext as _
 
 class DynamicTextForm(FlaskForm):
+	token        = TextField(_('Token'), render_kw = {'class':'form-control', 'placeholder':_('Token'), 'required':'required'})
 	text          = TextAreaField(_('Text'), render_kw = {'class':'form-control', 'rows':'3', 'placeholder': _('text'), 'required':'required'})
 	fallback_text = TextAreaField(_('Fallback Text'), render_kw = {'class':'form-control', 'rows':'3', 'placeholder': _('fallback text'), 'required':'required'})
 
 class VideoImageForm(FlaskForm):
+	token        = TextField(_('Token'), render_kw = {'class':'form-control', 'placeholder':_('Token'), 'required':'required'})
 	url          = TextField(_('URL'), render_kw = {'class':'form-control', 'placeholder': _("URL"), 'required':'required'})
 	share_url    = TextField(_('Content URL'), render_kw = {'class':'form-control', 'placeholder': _("Share URL for Facebook's video content"), 'required':'required', 'value':'https://www.facebook.com/sharer/sharer.php?u='})
 	button_title = TextField(_('Share'), render_kw = {'class':'form-control', 'placeholder': _("Button's title"), 'required':'required', 'value':'Share'}) 
 
 class TextButtonShareForm(FlaskForm):
+	token        = TextField(_('Token'), render_kw = {'class':'form-control', 'placeholder':_('Token'), 'required':'required'})
 	text = TextAreaField(_('Text'), render_kw = {'class':'form-control', 'rows':'5', 'placeholder': _('text'), 'required':'required'})
 	url = share_url    = TextField(_('Content URL'), render_kw = {'class':'form-control', 'placeholder': _("Share URL for Facebook's video content"), 'required':'required', 'value':'https://www.facebook.com/sharer/sharer.php?u='})
 	button_title = TextField(_('Share'), render_kw = {'class':'form-control', 'placeholder': _("Button's title"), 'required':'required', 'value':'Share'}) 
@@ -45,17 +49,22 @@ class DynamicTextView(AdminSecureView):
 	def index(self):
 		table = DynamicTextTable(data=[])
 		form  = DynamicTextForm()
+		p = pages._findByKey('ACCESS_TOKEN')
+		if p:
+			form.token.data = p.value
+
 		return render_template('/broadcast/dynamictext/index.html', form=form, table=table, username=users.current_user().username)
 
 	@route('/add.html', methods = ['POST'])
 	def add(self):
 		form  = DynamicTextForm()
 		table = DynamicTextTable(data=[])
+		error = None
 		if form.validate_on_submit():
 			
 			headers = {'Content-Type':'application/json'}
 			params = {
-				"access_token": FACEBOOK_TOKEN
+				"access_token": form.token.data
 			}
 			datas = json.dumps({
 				'messages': [{
@@ -100,6 +109,8 @@ class DynamicTextView(AdminSecureView):
 						obj.messaging_type = d['messaging_type']
 						broadcasts._insert(obj)
 						return redirect(url_for('admin.BroadcastView:index'))
+			else:
+				error = message_creative.json()['error']['message']
 
 		return render_template('/broadcast/dynamictext/index.html', form=form, username=users.current_user().username)
 
@@ -111,6 +122,9 @@ class VideoImageView(AdminSecureView):
 	@route('/index.html')
 	def index(self):
 		form = VideoImageForm()
+		p = pages._findByKey('ACCESS_TOKEN')
+		if p:
+			form.token.data = p.value
 		return render_template('/broadcast/videoimage/index.html', form=form, error=None, username=users.current_user().username)
 
 	@route('/add.html', methods = ['POST'])
@@ -122,7 +136,7 @@ class VideoImageView(AdminSecureView):
 			media_type = request.form.get('media_type', 'video')
 			headers = {'Content-Type':'application/json'}
 			params  = {
-				"access_token": FACEBOOK_TOKEN
+				"access_token": form.token.data
 			}
 			
 			datas   = json.dumps(
@@ -197,7 +211,11 @@ class TextButtonShareView(AdminSecureView):
 	@route('/index.html', methods = ['GET'])
 	def index(self):
 		form  = TextButtonShareForm()
-		return render_template('/broadcast/textbuttonshare/index.html', form=form, username=users.current_user().username)
+		error = None
+		p = pages._findByKey('ACCESS_TOKEN')
+		if p:
+			form.token.data = p.value
+		return render_template('/broadcast/textbuttonshare/index.html', form=form, username=users.current_user().username, error=error)
 
 	@route('/add.html', methods = ['POST'])
 	def add(self):
@@ -207,7 +225,7 @@ class TextButtonShareView(AdminSecureView):
 		if form.validate_on_submit():
 			headers = {'Content-Type':'application/json'}
 			params  = {
-				"access_token": FACEBOOK_TOKEN
+				"access_token": form.token.data
 			}
 			
 			datas   = json.dumps(
