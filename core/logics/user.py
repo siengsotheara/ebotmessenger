@@ -32,14 +32,14 @@ class UserLogic(LogicBase):
 		return None
 
 	def authenticate(self, username, password):
-		#user = self._active().filter(User.username == username.lower()).first()
+		user = self._active().filter(User.username == username.lower()).first()
 		
-		#if user:
-		#	verify = verify_password(username.lower()  + str(password), user.password)
-		#	if not verify:
-		#		return None
-		#return user
-		user = self.authenticate_webportal(username, password)
+		if user:
+			verify = verify_password(username.lower()  + password, user.password)
+			if not verify:
+				return None
+		
+		#user = self.authenticate_webportal(username, password)
 		return user
 
 	def authenticate_webportal(self, username, password):

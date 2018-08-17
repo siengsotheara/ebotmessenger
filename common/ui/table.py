@@ -82,7 +82,15 @@ class Column(ColumnBase):
             self.render_kw['style']='display:none;'
         if self.format:
             self.render_kw['format']=format
-        result = '<%s %s >%s</%s>'%(tag,html_params(**self.render_kw),data,tag)
+        #print type(data)
+        #if isinstance(data, str):
+        #    print data
+        #    #print data.decode('utf-8', 'replace')
+
+        #    data = u'{0}'.encode('utf-8').format(data)
+        #    print 'data after: ', data
+            
+        result = '<%s %s >%s</%s>'%(tag,html_params(**self.render_kw), data, tag)
         return HTMLString(result)
 
     def render_header(self,tag='th'):
@@ -90,7 +98,7 @@ class Column(ColumnBase):
             self.render_kw['style']='display:none;'
         if self.format:
             self.render_kw['format']=format
-        result = '<%s %s >%s</%s>'%(tag,html_params(**self.render_kw),self.label,tag)
+        result = '<%s %s >%s</%s>'%(tag,html_params(**self.render_kw), self.label,tag)
         return HTMLString(result)
 
 

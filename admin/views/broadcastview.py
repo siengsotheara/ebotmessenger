@@ -8,7 +8,6 @@ from flask_babel import lazy_gettext as _
 class DynamicTextForm(FlaskForm):
 	token        = TextField(_('Token'), render_kw = {'class':'form-control', 'placeholder':_('Token'), 'required':'required'})
 	text          = TextAreaField(_('Text'), render_kw = {'class':'form-control', 'rows':'3', 'placeholder': _('text'), 'required':'required'})
-	fallback_text = TextAreaField(_('Fallback Text'), render_kw = {'class':'form-control', 'rows':'3', 'placeholder': _('fallback text'), 'required':'required'})
 
 class VideoImageForm(FlaskForm):
 	token        = TextField(_('Token'), render_kw = {'class':'form-control', 'placeholder':_('Token'), 'required':'required'})
@@ -26,6 +25,7 @@ class DynamicTextTable(Table):
 	rowno                 = RowNumberColumn(_('#'))
 	message_creative_id   = Column(_('MESSAGE CREATIVE ID'))
 	message_creative_type = Column(_('MESSAGE CREATIVE TYPE'))
+	content               = Column(_('CONTENT'))
 	is_already_broadcast  = Column(_('BROADCAST'))
 	create_by             = Column(_('CREATE BY'))
 	create_at             = DateTimeColumn(_('CREATE DATE'))
@@ -55,13 +55,16 @@ class DynamicTextView(AdminSecureView):
 
 		return render_template('/broadcast/dynamictext/index.html', form=form, table=table, username=users.current_user().username)
 
-	@route('/add.html', methods = ['POST'])
+	@route('/add.html', methods = ['GET', 'POST'])
 	def add(self):
 		form  = DynamicTextForm()
 		table = DynamicTextTable(data=[])
 		error = None
+
+		if request.method == 'GET':
+			return redirect(url_for('admin.DynamicTextView:index'))
+
 		if form.validate_on_submit():
-			
 			headers = {'Content-Type':'application/json'}
 			params = {
 				"access_token": form.token.data
@@ -70,7 +73,7 @@ class DynamicTextView(AdminSecureView):
 				'messages': [{
 					'dynamic_text': {
 						'text': u'{0}'.format(form.text.data),
-						'fallback_text': u'{0}'.format(form.fallback_text.data)
+						'fallback_text': 'Please Contact Tel. 023 930 000 for more information'
 					}
 				}]
 			})
@@ -88,6 +91,7 @@ class DynamicTextView(AdminSecureView):
 				obj.is_already_broadcast = is_broadcast_now
 				obj.message_creative_id = message_creative.json().get('message_creative_id', 0)
 				obj.message_creative_type = 'text'
+				obj.content = u'{0}'.format(form.text.data)
 				broadcastmessages._insert(obj)
 				
 				if is_broadcast_now == 'Y':
@@ -112,7 +116,7 @@ class DynamicTextView(AdminSecureView):
 			else:
 				error = message_creative.json()['error']['message']
 
-		return render_template('/broadcast/dynamictext/index.html', form=form, username=users.current_user().username)
+		return render_template('/broadcast/dynamictext/index.html', form=form, username=users.current_user().username, error=error)
 
 class VideoImageView(AdminSecureView):
 	"""
@@ -127,10 +131,13 @@ class VideoImageView(AdminSecureView):
 			form.token.data = p.value
 		return render_template('/broadcast/videoimage/index.html', form=form, error=None, username=users.current_user().username)
 
-	@route('/add.html', methods = ['POST'])
+	@route('/add.html', methods = ['GET', 'POST'])
 	def add(self):
 		form  = VideoImageForm()
 		error = None
+
+		if request.method == 'GET':
+			return redirect(url_for('admin.VideoImageView:index'))
 
 		if form.validate_on_submit():
 			media_type = request.form.get('media_type', 'video')
@@ -217,10 +224,13 @@ class TextButtonShareView(AdminSecureView):
 			form.token.data = p.value
 		return render_template('/broadcast/textbuttonshare/index.html', form=form, username=users.current_user().username, error=error)
 
-	@route('/add.html', methods = ['POST'])
+	@route('/add.html', methods = ['GET', 'POST'])
 	def add(self):
 		form  = TextButtonShareForm()
 		error = None
+
+		if request.method == 'GET':
+			return redirect(url_for('admin.TextButtonShareView:index'))
 
 		if form.validate_on_submit():
 			headers = {'Content-Type':'application/json'}

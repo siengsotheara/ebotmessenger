@@ -55,14 +55,20 @@ class UserView(AdminSecureView):
 
         if form.validate_on_submit():
             user = User()
-            user.username = form.username.data
+            user.username = form.username.data.strip()
             user.password = form.password.data
-            user.email = form.email.data
-            user.is_login_ad = form.is_login_ad.data
-            user.full_name = form.full_name.data
+            user.email = form.email.data.strip()
+            user.is_login_ad = form.is_login_ad.data.strip()
+            user.full_name = form.full_name.data.strip()
 
             if users.check_duplicate(user.username):
                 error = _('Username already exist!')
+                return render_template('/user/add.html', username=users.current_user().username, table=table, form=form, error=error)
+            if len(user.username) > 50:
+                error = _('Username must be less than 50 characters')
+                return render_template('/user/add.html', username=users.current_user().username, table=table, form=form, error=error)
+            if len(user.full_name) > 50:
+                error = _('Full name must be less than 50 characters')
                 return render_template('/user/add.html', username=users.current_user().username, table=table, form=form, error=error)
 
             if form.password.data != form.confirm_password.data:

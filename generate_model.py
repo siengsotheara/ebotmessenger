@@ -15,15 +15,9 @@ print '\ndrop and create all model...'
 from core.models import *
 from core.databases import *
 
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine) 
+#Base.metadata.drop_all(engine)
+#Base.metadata.create_all(engine) 
 
+"""
 
-
-# initializing data ---------------------------------------------
-print '\ninitializing data...'
-
-
-
-print '\ninitializing function...'
-#import core.databases.functions
+"""

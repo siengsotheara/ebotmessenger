@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿{% set version='0.0.1' %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,13 +8,21 @@
     <title>Phillip Bank Plc. | Facebook Messenger Bot</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="{{ url_for('admin.static', filename='icon.ico') }}" />
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/font-awesome/css/font-awesome.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/Ionicons/css/ionicons.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/datatables.net-bs/css/dataTables.bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/AdminLTE.min.css') }} " />
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/skins/skin-default.css') }} " />
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}?v={{version}}">
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/font-awesome/css/font-awesome.min.css') }}?v={{version}}" />
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/Ionicons/css/ionicons.min.css') }}?v={{version}}" />
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='bower_components/datatables.net-bs/css/dataTables.bootstrap.css') }}?v={{version}}">
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/AdminLTE.min.css') }}?v={{version}} " />
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/skins/skin-default.css') }}?v={{version}} " />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <style>
+        body {
+            font-family: 'Kh Siemreap'
+        }
+        textarea {
+            resize: vertical;
+        }
+    </style>
     {% block css %}{% endblock %}
 </head>
 

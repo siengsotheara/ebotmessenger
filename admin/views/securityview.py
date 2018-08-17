@@ -36,8 +36,9 @@ class SecurityView(AdminView):
 
 		if 'username' in session:
 			return redirect(url_for('admin.HomeView:index'))
+
 		if request.method == 'GET':
-			form.target.data = request.args.get("next", 'admin.HomeView:index')
+			form.target.data = request.args.get("next", url_for('admin.HomeView:index'))
 
 		if form.validate_on_submit():
 			user = users.authenticate(form.username.data, form.password.data)
